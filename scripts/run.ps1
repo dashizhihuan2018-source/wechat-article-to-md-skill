@@ -3,16 +3,14 @@
 $ErrorActionPreference = 'Stop'
 $cliArguments = @($args)
 $entry = 'wechat-to-md.cjs'
-if ($cliArguments.Count -gt 0 -and $cliArguments[0] -eq '--batch') {
-    $entry = 'batch.cjs'
-    $cliArguments = @($cliArguments | Select-Object -Skip 1)
+if ($cliArguments.Count -gt 0) {
+    $entries = @{ '--batch'='batch.cjs'; '--discover'='discover.cjs'; '--archive'='archive.cjs'; '--classify'='classify.cjs' }
+    if ($entries.ContainsKey($cliArguments[0])) {
+        $entry = $entries[$cliArguments[0]]
+        $cliArguments = @($cliArguments | Select-Object -Skip 1)
+    }
 }
 $converter = Join-Path $PSScriptRoot $entry
-if ($cliArguments.Count -gt 0 -and $cliArguments[0] -eq '--discover') {
-    $entry = 'discover.cjs'
-    $cliArguments = @($cliArguments | Select-Object -Skip 1)
-    $converter = Join-Path $PSScriptRoot $entry
-}
 
 function Test-UsableNode([string] $Executable) {
     try {

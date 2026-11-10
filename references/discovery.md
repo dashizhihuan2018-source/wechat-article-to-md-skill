@@ -7,11 +7,19 @@
 - [文章列表参数、返回结构、分页与价格](https://dataxapi.com/zh/apis/wechat_mp/accounts/articles/list/)
 - [服务商登录与 Key 配置入口](https://dataxapi.com/zh/signin/)
 
+macOS 可将 Key 存入钥匙串服务 `wechat-article-to-md-skill.dataxapi`，账号为本机用户名；由智能体使用安全输入完成保存。读取并用于单次运行时可执行下式，Key不打印到终端，不写入项目：
+
+```sh
+DATAXAPI_API_KEY="$(security find-generic-password -a "$USER" -s 'wechat-article-to-md-skill.dataxapi' -w)" sh scripts/run.sh --archive --name '公众号名称' --trial 10 --output-dir ./name-trial
+```
+
+其他系统沿用本机秘密管理器或终端环境变量；不要把真实Key放进教程文件。
+
 官方文档列出每页 $0.02；免费次数和实际价格以控制台为准。脚本默认只调用一页以便核验数据和费用；`--pages all` 遍历服务商可见全部页，没有文章篇数上限。分页之间等待60秒，错误立即停止，服务商内部采集机制不受本脚本控制。
 
 ## 账号定位
 
-需要已核验的公众号原始 ID，通常以 `gh_` 开头。名称可通过服务商 `wechat.accounts.search` 或正常可访问的公众号介绍核对；当前脚本尚未自动执行名称搜索。不要把重名账号直接视为目标。
+只给公众号名称时可用 `--archive --name` 自动调用服务商 `wechat.accounts.search`，处理同名情况并衔接发现、下载与归类；详见 [名称归档流程](archive.md)。独立 `--discover` 需要已核验原始 ID，通常以 `gh_` 开头，也支持服务商返回的其他字母数字 ID。
 
 本次目标：Best in Class，原始 ID `gh_47bcb0437f6f`，微信号 `BiotechCatalysts`；该映射来自本机已核验文章元数据，不依赖用户重新登录微信。
 
@@ -36,4 +44,4 @@ sh scripts/run.sh --discover --id gh_47bcb0437f6f --pages all --cursor '<上一�
 
 ## 本次验证边界
 
-2026-11-10：DataXAPI 无凭证请求返回 HTTP401，未收费；本机未配置该服务的 Key。分页和下载清单衔接使用合成响应通过验证，账号级真实覆盖尚待有效 Key 验证。Best in Class 另有3篇真实正文已保存，其中2篇是本次直接 HTTP 转换，1篇复用此前验证文件；这3条链接来源于本地缓存，不能算作第三方接口的成功结果。
+2026-11-10无凭证请求返回HTTP401。2026-11-11取得有效Key并实测名称搜索，5页未精确匹配目标后免费余额耗尽；指定ID历史接口返回HTTP402、charged:false。尚未验证该服务对目标历史文章的覆盖。Best in Class另有3篇真实正文已保存并归类，其中2篇直接HTTP转换、1篇复用旧结果；链接来自本地缓存，不能算作第三方发现成功。

@@ -33,6 +33,11 @@ fs.writeFileSync(out+'.status.json',JSON.stringify(status),{flag:'wx'});console.
 }
 function api(){assert.ok(fs.existsSync(batchFile),'serial batch runner must exist');return require(batchFile);}
 
+test('large history manifests are accepted beyond the former one-MiB limit',t=>{
+  const entries=Array.from({length:1500},(_,i)=>({url:articleUrl('large-'+i),title:'合成'.repeat(400)}));
+  const f=fixture(t,entries);assert.ok(fs.statSync(f.links).size>1024*1024);assert.equal(api().readLinks(f.links).links.length,1500);
+});
+
 test('serial inputs reject unsafe URLs, invalid limits and fast production intervals before creating outputs',async t=>{
   const {runBatch}=api();
   for(const [entries,extra] of [[['https://example.test/s/a'],{}],[[articleUrl('a')],{limit:0}],[[articleUrl('a')],{limit:1.5}],[[articleUrl('a')],{intervalSeconds:59}],[[articleUrl('a'),articleUrl('a')],{}]]){

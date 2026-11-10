@@ -17,7 +17,6 @@ function articleUrl(value) {
 }
 function readLinks(filename) {
   const absolute=path.resolve(filename);
-  if(fs.statSync(absolute).size>1024*1024)throw Error('Links file exceeds 1 MiB');
   const text=fs.readFileSync(absolute,'utf8').replace(/^\uFEFF/,'').trim();
   if(!text)throw Error('Links file is empty');
   let parsed,ordering;
@@ -83,7 +82,7 @@ async function runBatch(options,runtime={}) {
     if(index.next_index<0)index.next_index=selected.length;
     atomic('batch-index.json',index);
     atomic('manifest.json',{schema_version:1,status:index.status,created_at:index.created_at,finished_at:index.finished_at,counts:index.counts,index:'batch-index.json',remaining:'remaining-links.json',images_offline:false});
-    atomic('remaining-links.json',{ordering:source.ordering,resumes_from_index:index.next_index,links:selected.slice(index.next_index).map(entry=>entry.reuse_markdown?{...entry,reuse_markdown:path.resolve(source.directory,entry.reuse_markdown)}:entry)});
+    atomic('remaining-links.json',{ordering:source.ordering,resumes_from_index:index.next_index,links:source.links.slice(index.next_index).map(entry=>entry.reuse_markdown?{...entry,reuse_markdown:path.resolve(source.directory,entry.reuse_markdown)}:entry)});
   }
   function stop(item,status,reason,message) {
     item.status=status;item.reason=reason;item.message=message;item.finished_at=iso();index.status='stopped';index.stop_reason=reason;

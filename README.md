@@ -4,6 +4,14 @@
 
 ![微信文章整理skill 技术路径](docs/assets/technical-path.png)
 
+输入公众号名称，自动查找账号、分页获取可见历史、下载并按正文归类：
+
+```sh
+sh scripts/run.sh --archive --name '公众号名称' --output-dir './account-archive'
+```
+
+首次试10篇可加 `--trial 10`；正式运行不设篇数上限。历史列表使用 DataXAPI，需要在本机配置服务商 Key，无需登录微信。真实全历史覆盖仍需与原始目录核对；已删除或服务商未收录的文章可能缺失。[名称归档、分类与续接教程](references/archive.md)说明配置、费用、状态与自定义规则。
+
 下载完整发布包、解压即可运行。启动器自动检测 Node.js；缺失时从官方源下载、校验并安装到用户私有目录。转换依赖已打包，无需 npm 安装：
 
 ```sh
@@ -20,7 +28,7 @@ Windows PowerShell：
 
 ## 作为 Skill 安装
 
-从 [v0.4.0 发布页](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.4.0) 下载 ZIP，解压得到 `wechat-article-to-md-skill` 文件夹。`.skill` 附件也是同内容 ZIP，供支持该格式的技能管理器导入。
+从 [v0.5.0 发布页](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.5.0) 下载 ZIP，解压得到 `wechat-article-to-md-skill` 文件夹。`.skill` 附件也是同内容 ZIP，供支持该格式的技能管理器导入。
 
 Codex 用户将文件夹复制到以下目录，确认 `SKILL.md` 直接位于该文件夹内，再重新打开会话：
 
@@ -39,13 +47,13 @@ node scripts/wechat-to-md.cjs --url 'https://mp.weixin.qq.com/s/文章ID' --html
 
 2026-11-10，最终运行包已直接通过 HTTP 读取指定真实微信文章并生成 3,753 字节 Markdown；与原小程序保存结果相比，正文移除排版空白后完全一致（1,331字符）。16例原解析函数差分和15项本地测试全部通过。作者、发布时间等元数据与线上版仍有差异，详见[验证记录](references/reverse-evidence.md#真实单篇验证)。
 
-微信可能向本机请求返回验证页。遇到验证立即停止，**不保证任意文章、网络或平台都能只凭链接取得全文**。图片保留远程链接，公众号全历史下载不在本版范围内。
+微信可能向本机请求返回验证页。遇到验证立即停止，**不保证任意文章、网络或平台都能只凭链接取得全文**。图片保留远程链接。名称归档已实现遍历服务商可见历史，全历史完整性尚未完成真实对账验收。
 
 ## 串行批次与正文研究
 
-支持 [免登录微信的历史链接发现](references/discovery.md)：`sh scripts/run.sh --discover --id gh_账号ID --pages 1 --output-dir ./discovery`。需在本机配置 DataXAPI 服务商的 Key；`--pages all` 可遍历其可见全部页，不设文章篇数上限。当前已验证官方请求结构与本地分页，第三方账号覆盖尚未持 Key 实测。发现的链接可直接交给 `--batch`，正常文章正文仍由本机转换器读取。
+按名称自动执行全流程请用 `--archive`；仅需 [历史链接发现](references/discovery.md) 时使用 `--discover --id <账号ID> --pages all`。发现的链接可直接交给 `--batch`，正常文章正文仍由本机转换器读取。
 
-支持用户已授权、已核验顺序的文章清单，不设固定篇数上限。默认处理清单中的全部文章；`--limit` 只用于试跑少量样本，不是产品上限。先通过正常可访问的公众号历史列表核对账号与链接，记录排序依据；公众号名称不是“全历史 API”。设备锁屏、链接未知或访问受限时保留已有种子与进度，等待正常访问恢复，不猜造文章或声称批次已完成。
+支持用户已授权、已核验顺序的文章清单，不设固定篇数上限。默认处理清单中的全部文章；`--limit` 只用于试跑少量样本，不是产品上限。通过名称搜索或正常可访问的公众号历史列表核对账号与链接，记录排序依据。访问受限时保留已有文章与进度。
 
 将链接按已核验顺序存为 JSON 或一行一条 URL 的文本文件，然后在**新的输出目录**运行：
 
@@ -63,7 +71,7 @@ sh scripts/run.sh --batch --links ./verified-links.json --output-dir ./new-batch
 
 停止后不覆盖原产物。正常验证恢复且人工核对剩余列表后，以 `remaining-links.json` 和新的输出目录继续；列表包含首次失败项，不会自动请求。可通过 `reuse_markdown` 复用带匹配源 URL、成功解析与原状态文件的真实种子，避免重复请求。
 
-智能体只基于实际保存的正文做分类与研究，区分原文与分析，不为补齐指定数量编造结论。私有研究报告和全文不随技能公开。字段、采集边界和报告模板见 [批次整理与研究教程](references/batch-report.md)。已有单篇实测不变；批次功能的离线子进程验证不代表真实历史批次或跨平台批次已完成。
+已有批次可执行 `sh scripts/run.sh --classify --batch-dir ./new-batch --output-dir ./classified`。分类器核验哈希、账号和链接后按正文关键词生成主目录、多标签和命中片段，支持JSON规则；`--archive` 自动执行此步骤。智能体可继续读正文做研究。私有研究报告和全文不随技能公开。字段、采集边界和报告模板见 [批次整理与研究教程](references/batch-report.md)。名称全流程已用12篇合成HTML经过正式转换器子进程测试；真实3篇正文已归类；真实全历史列表与首轮10篇尚未验收。
 
 `SKILL.md` 是智能体入口。发布的可执行脚本已自包含，不需要调用原作者 API 或提供微信凭证。
 
