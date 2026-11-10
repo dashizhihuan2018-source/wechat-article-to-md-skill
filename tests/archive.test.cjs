@@ -1,6 +1,7 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),os=require('node:os'),path=require('node:path');
-const {archive}=require('../scripts/archive.cjs'),{searchAccounts}=require('../scripts/accounts.cjs');
+const {archive:archiveImpl}=require('../scripts/archive.cjs'),{searchAccounts}=require('../scripts/accounts.cjs');
+const archive=(options,runtime)=>archiveImpl({provider:'dataxapi',...options},runtime);
 const id='gh_synthetic',name='Synthetic account';
 const response=(items,more=false,cursor=null)=>({ok:true,json:async()=>({code:'ok',data:{items},page:{has_more:more,next_cursor:cursor}})});
 function fixture(t){
@@ -49,4 +50,10 @@ test('short trial reports the shortfall explicitly and retains classified result
 });
 test('missing key is a preflight failure without network or output',async t=>{
   const f=fixture(t);f.runtime.provider.key='';await assert.rejects(archive({name,outputDir:f.out},f.runtime),/DATAXAPI_API_KEY/);assert.equal(f.requests.length,0);assert.equal(fs.existsSync(f.out),false);
+});
+test('default name archive is free: public index → originals → real converter → classification without provider credentials',async t=>{
+ const f=fixture(t),biz='TW9jaw==',sn='a'.repeat(32);let paidCalls=0;
+ f.runtime.provider={key:'',fetch:async()=>{paidCalls++;throw Error('Paid provider forbidden');}};
+ f.runtime.public={sleep:async()=>{},fetch:async u=>({ok:true,text:async()=>u.pathname.includes('/summary/')?`<title>⌈${name}⌋-新闻来源聚合 -共2条- 第1页</title>`+[1,2].map(n=>`<div class="item-news"><a class="news-title" href="/news/detail/${String(n).padStart(32,'0')}">Synthetic ${n}</a><a href="/news/summary/source/Synthetic%20account">${name}</a></div>`).join(''):`<div id="source-box"><span class="dark-link">${name}</span></div><div class="top-container"><div class="title">Synthetic ${Number(u.pathname.split('/').pop())}</div><a class="origin_link" href="https://mp.weixin.qq.com/s?__biz=${biz}&amp;mid=${Number(u.pathname.split('/').pop())}&amp;idx=1&amp;sn=${sn}"></a></div>`})};
+ const state=await archiveImpl({name,trial:2,outputDir:f.out},f.runtime);assert.equal(state.status,'trial_archived',state.error);assert.equal(state.provider,'bydrug');assert.equal(state.counts.classified,2);assert.equal(paidCalls,0);
 });

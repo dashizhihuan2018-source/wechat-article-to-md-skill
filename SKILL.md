@@ -1,11 +1,13 @@
 ---
 name: wechat-article-to-md-skill
-description: 按微信公众号名称搜索账号、分页获取服务商可见的历史文章、下载为本机Markdown并按正文自动归类；也支持单篇直链转换与已核验清单。无需登录微信，历史列表需要本机DataXAPI Key；同名账号需区分，不设文章篇数上限。
+description: 按公众号名称从免费公开索引发现原微信链接，下载为本机Markdown并按正文归类；也支持单篇直链和已核验清单。默认无需API Key或微信登录，适用于公开索引已收录的公众号；记录覆盖范围和未完成项。
 ---
 
 # 微信文章整理skill
 
-用户给公众号名称并要求历史下载与归类时，先读 [名称归档流程](references/archive.md)，执行 `sh scripts/run.sh --archive --name "<公众号名称>" --output-dir "<新目录>"`。默认遍历全部服务商可见页面；`--trial 10` 仅用于用户指定的首次10篇试跑。同名账号无法唯一确定时保留候选列表，结合用户提供的一篇文章或原始ID辨认。Key 从本机环境读取；缺失时完成可独立执行的本地整理并报告真实阻塞。读取 `archive.json` 和实际文件确认结果，不把可见页遍历完当成全历史完整性已证明。
+用户给公众号名称并要求历史下载与归类时，先读 [名称归档流程](references/archive.md)，执行 `sh scripts/run.sh --archive --name "<公众号名称>" --output-dir "<新目录>"`。默认使用免费 ByDrug 公开作者索引，无需 API Key 或微信登录；`--trial 10` 只限制本次试跑，不是产品篇数上限。来源未登录只开放3页，遵守该范围，不访问第4页或绕过登录。未收录、同名或身份无法核实时报告实际范围，不自动切换收费接口。读取 `archive.json` 和文件确认数量，不把公开收录数当作完整历史证明。
+
+Best in Class 的10篇免费成功路径见 [免费发现实战](references/free-discovery.md)及[在线案例教程](https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/)：全部直接读取微信原文并按正文归类，索引仅用于发现链接。医药细分可加 `--rules references/medicine-rules.json`。公开索引发现是本技能新增扩展，不属于原小程序 v13 的逆向规则。
 
 使用已打包的 Node 脚本。启动器自动检测运行环境：已有 Node.js 18+ 就复用；缺失时从 Node.js 官方下载并校验24.x LTS，放到用户私有目录后继续。无需安装小程序、插件、服务端或 npm 依赖。环境错误时读 [自动准备环境教程](references/environment.md)。
 
@@ -37,7 +39,9 @@ sh "<本 skill 目录>/scripts/run.sh" --url "<原链接>" --html "<真实页面
 
 ## 串行批次：先核验链接，再逐篇整理
 
-需要免登录微信取得历史列表时，先读 [免登录链接发现](references/discovery.md)。使用已核验的原始账号 ID 和本机 `DATAXAPI_API_KEY`，通过 `--discover` 生成可供 `--batch` 使用的链接表。首次一页验证后可用 `--pages all` 继续；服务商返回范围不等于完整历史。缺 Key 时说明配置要求，继续整理已取得的真实文章。
+免费链接发现可独立运行 `sh scripts/run.sh --free-discover --name "<公众号名称>" --limit 10 --output-dir "<新目录>"`。核验作者页、详情页的原微信链接与 `__biz`，生成 `discovered-links.json`；下载正文后仍核验公众号名称。
+
+仅当用户明确选择 DataXAPI 时才读 [可选服务商发现](references/discovery.md)，使用 `--archive --provider dataxapi` 或独立 `--discover`。它需要本机服务商 Key 并可能计费，不是免费来源的自动兜底。
 
 使用名称归档流程可自动发现链接；用户已有历史列表或清单时，也可从中收集真实文章链接，核对账号，记录来源、收集时间和排序依据。清单可以包含任意数量的已核验链接；默认全部处理，“前10篇”等只是用户指定的试跑范围，不是产品上限。账号或链接无法核实时保留已有结果与进度，不猜造文章。
 

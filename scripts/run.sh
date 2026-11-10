@@ -7,6 +7,7 @@ entry=wechat-to-md.cjs
 case "${1:-}" in
   --batch) entry=batch.cjs; shift ;;
   --discover) entry=discover.cjs; shift ;;
+  --free-discover) entry=free-discover.cjs; shift ;;
   --archive) entry=archive.cjs; shift ;;
   --classify) entry=classify.cjs; shift ;;
 esac

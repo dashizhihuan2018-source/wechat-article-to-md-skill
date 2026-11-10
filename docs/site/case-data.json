@@ -1,0 +1,160 @@
+{
+  "verified_on": "2026-11-11",
+  "account": "Best in Class",
+  "provider": "ByDrug公开作者目录",
+  "source_url": "https://bydrug.pharmcube.com/news/summary/source/Best%20in%20Class",
+  "source_reported_total": 62,
+  "public_page_limit": 3,
+  "verification": {
+    "converted": 10,
+    "reused": 0,
+    "failed": 0,
+    "classified": 10,
+    "images_offline": false
+  },
+  "categories": {
+    "商业合作与渠道": 2,
+    "临床研究": 6,
+    "AI与药物发现": 1,
+    "企业财报与专利": 1
+  },
+  "articles": [
+    {
+      "number": 1,
+      "title": "Sandoz在巴西推出司美格鲁肽仿制药",
+      "category": "商业合作与渠道",
+      "tags": [
+        "商业合作与渠道",
+        "监管审批"
+      ],
+      "listed_published_at": "2026-11-09 20:58",
+      "date_source": "ByDrug详情页显示日期；非原文元数据核验",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIwMzYyMzI0Nw%3D%3D&mid=2247506363&idx=1&sn=2630e17f56a7465348e0bf68bf2a3972",
+      "sha256": "eb28657ef2dce172fcee75829e9bc8be0157f2147a0bfecda587a41002a12cbb",
+      "bytes": 4077
+    },
+    {
+      "number": 2,
+      "title": "前列腺癌迎来免疫疗法，强生TCE组合高效低毒",
+      "category": "临床研究",
+      "tags": [
+        "临床研究"
+      ],
+      "listed_published_at": "2026-11-09 20:38",
+      "date_source": "ByDrug详情页显示日期；非原文元数据核验",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIwMzYyMzI0Nw%3D%3D&mid=2247506358&idx=1&sn=4ba94c556e64dd1a2c424c457d4702fd",
+      "sha256": "5ad8e806f4c2a02c7f02d12a738176f013c282ba9b83df40b1266fbee5bb4f82",
+      "bytes": 3221
+    },
+    {
+      "number": 3,
+      "title": "炸裂，UCB IL17A/F头对头优于艾伯维IL23",
+      "category": "临床研究",
+      "tags": [
+        "临床研究",
+        "监管审批"
+      ],
+      "listed_published_at": "2026-11-09 20:34",
+      "date_source": "ByDrug详情页显示日期；非原文元数据核验",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIwMzYyMzI0Nw%3D%3D&mid=2247506354&idx=1&sn=b7e67f3c350aafc9a640104c7d89dabe",
+      "sha256": "10d8784318d89830411f067452f4626d6b1f17a8f0a096d9b50ae75e4d2cfb6e",
+      "bytes": 7203
+    },
+    {
+      "number": 4,
+      "title": "Vertex使用50家AI公司梳理10000种药物化合物数据集，但没有一家公司生成出可行的药物",
+      "category": "AI与药物发现",
+      "tags": [
+        "AI与药物发现"
+      ],
+      "listed_published_at": "2026-11-06 21:11",
+      "date_source": "ByDrug详情页显示日期；非原文元数据核验",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIwMzYyMzI0Nw%3D%3D&mid=2247506337&idx=1&sn=7313d252895145588abc232a70e0ccf1",
+      "sha256": "55e89c2ffb39d081e149265533f6e19a3c9b2aeaba6e8b4eaa829c3272dc7226",
+      "bytes": 3806
+    },
+    {
+      "number": 5,
+      "title": "刚刚，礼来允许HIMS线上销售替尔泊肽和Foundayo",
+      "category": "商业合作与渠道",
+      "tags": [
+        "商业合作与渠道",
+        "监管审批"
+      ],
+      "listed_published_at": "2026-11-06 20:07",
+      "date_source": "ByDrug详情页显示日期；非原文元数据核验",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIwMzYyMzI0Nw%3D%3D&mid=2247506332&idx=1&sn=1f80a3057b77f4da0663ac8c469d6dc4",
+      "sha256": "df6a4aac7b9d5738499005fcb58a35c5183e44f540a112abcce4b2ae5b862c96",
+      "bytes": 4924
+    },
+    {
+      "number": 6,
+      "title": "AA­S­LD2026| 众生发布ZSP1601治疗MASH数据",
+      "category": "临床研究",
+      "tags": [
+        "临床研究"
+      ],
+      "listed_published_at": "2026-11-06 20:01",
+      "date_source": "ByDrug详情页显示日期；非原文元数据核验",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIwMzYyMzI0Nw%3D%3D&mid=2247506328&idx=1&sn=cff77ca32757f4da39cec78448ce5773",
+      "sha256": "c7cb90f17f1585dc866a868a69b3a4144cd4134a23cfdf0acb59e8f2fb7ece1a",
+      "bytes": 3259
+    },
+    {
+      "number": 7,
+      "title": "头颈癌第一且唯一双靶疗法，强生EGFR/C-MET双抗加速获批上市",
+      "category": "临床研究",
+      "tags": [
+        "临床研究",
+        "监管审批"
+      ],
+      "listed_published_at": "2026-11-06 19:43",
+      "date_source": "ByDrug详情页显示日期；非原文元数据核验",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIwMzYyMzI0Nw%3D%3D&mid=2247506323&idx=1&sn=d20e54db029bae5f801b1a7c373ab029",
+      "sha256": "692f288a81a26e5da9389005ac7334ac5a744ed592364afe884f31efe889b1ad",
+      "bytes": 9769
+    },
+    {
+      "number": 8,
+      "title": "别猜了，诺和诺德CEO承认司美中国专利2027年到期，Q3电话会纪要",
+      "category": "企业财报与专利",
+      "tags": [
+        "企业财报与专利",
+        "临床研究",
+        "商业合作与渠道",
+        "监管审批"
+      ],
+      "listed_published_at": "2026-11-05 16:25",
+      "date_source": "ByDrug详情页显示日期；非原文元数据核验",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIwMzYyMzI0Nw%3D%3D&mid=2247506318&idx=1&sn=9febc47628decb65725c096447bef4b0",
+      "sha256": "c8932a009ade4ca9b360f2b04827528db18c14336c5d9b5d036baaa77a850fdc",
+      "bytes": 50265
+    },
+    {
+      "number": 9,
+      "title": "RevMed启动KRAS G12D+西妥昔+化疗结直肠癌一线3期临床",
+      "category": "临床研究",
+      "tags": [
+        "临床研究"
+      ],
+      "listed_published_at": "2026-11-05 13:10",
+      "date_source": "ByDrug详情页显示日期；非原文元数据核验",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIwMzYyMzI0Nw%3D%3D&mid=2247506313&idx=1&sn=ecfa2f17825bbd2abb165315471bf741",
+      "sha256": "469e0a006f0526ee567d37959d4aeaa717a6937380574b5954fee70f8558d21a",
+      "bytes": 1617
+    },
+    {
+      "number": 10,
+      "title": "ASH2026｜ 超阳IKZF1/3降解剂rrMM一期结果",
+      "category": "临床研究",
+      "tags": [
+        "临床研究"
+      ],
+      "listed_published_at": "2026-11-05 10:31",
+      "date_source": "ByDrug详情页显示日期；非原文元数据核验",
+      "url": "https://mp.weixin.qq.com/s?__biz=MzIwMzYyMzI0Nw%3D%3D&mid=2247506304&idx=1&sn=ddf0ff9fa0582323c19d28110e3d12a4",
+      "sha256": "1724617a10ab9832670b1ee5cbc316bc5dd333987b60bc87d17ccf22b08ab208",
+      "bytes": 4313
+    }
+  ]
+}

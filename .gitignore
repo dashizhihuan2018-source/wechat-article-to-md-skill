@@ -3,5 +3,5 @@ node_modules/
 *.status.json
 output/
 deploy/
-site/
+/site/
 dist/

@@ -1,4 +1,4 @@
 interface:
   display_name: "微信文章整理skill"
-  short_description: "按公众号名称发现可见历史、下载 Markdown 并按正文自动归类"
-  default_prompt: "使用 $wechat-article-to-md-skill，按我给的公众号名称自动查找账号、遍历可见历史、下载Markdown并按正文归类。默认处理全部可见文章；首轮试跑可指定数量。同名账号先辨认，读取本机DataXAPI Key，基于实际文件报告数量、证据和覆盖缺口。"
+  short_description: "免费发现公众号原文链接、下载 Markdown 并按正文自动归类"
+  default_prompt: "使用 $wechat-article-to-md-skill，按公众号名称从免费公开索引发现原文链接，直接下载微信正文并归类。首次可试10篇，核验作者与原文标识，报告真实数量与覆盖范围；默认无需Key或微信登录，不自动调用收费接口。"

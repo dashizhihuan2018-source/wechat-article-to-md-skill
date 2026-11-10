@@ -77,4 +77,4 @@ async function main(argv) {
   console.log(JSON.stringify(status));
 }
 if(require.main===module) main(process.argv.slice(2)).catch(e=>{console.error(JSON.stringify({ok:false,status:'failed',message:e.message}));process.exitCode=1;});
-module.exports={main,parse,frontmatter,allowed,checkpoint,USER_AGENT};
+module.exports={main,parse,frontmatter,allowed,checkpoint,USER_AGENT,...require('./public-index.cjs')};

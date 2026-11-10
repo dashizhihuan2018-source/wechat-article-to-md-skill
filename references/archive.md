@@ -1,50 +1,53 @@
-# 输入公众号名称，下载与归类
+# 输入公众号名称，免费下载与归类
 
 ```sh
 sh scripts/run.sh --archive --name '公众号名称' --output-dir ./account-archive
 ```
 
-Windows 将启动命令替换为 `& .\scripts\run.ps1`。两平台均自动准备 Node.js；不依赖 npm、小程序、Obsidian插件或自建服务器。
+Windows 将启动命令替换为 `& .\scripts\run.ps1`。启动器自动准备 Node.js，不依赖 npm、小程序、Obsidian插件或自建服务器。
 
-名称搜索默认最多请求3页，找不到唯一精确匹配或搜索未穷尽时保存候选并停止；可通过 `--search-pages all` 显式遍历全部搜索结果。账号确定后默认遍历全部可见历史页，逐篇下载并归类，无固定文章篇数上限。第一次只试10篇：
+默认来源是 ByDrug 免费公开作者索引，适用于其已收录的公众号；无需 API Key 或微信登录。脚本按名称定位作者页，核验原微信链接，再直接下载微信正文并归类。不能承诺覆盖任意公众号或全部历史。首次只试10篇：
 
 ```sh
-sh scripts/run.sh --archive --name '公众号名称' --trial 10 --output-dir ./account-trial
+sh scripts/run.sh --archive --name 'Best in Class' --trial 10 --rules references/medicine-rules.json --output-dir ./best-in-class-trial
 ```
 
-## 前置配置与费用
+`--trial N` 只限制本次试跑。技能不设10篇上限；ByDrug 未登录只开放3页，默认处理全部可见内容时也遵守该限制，不访问第4页。达到上游范围后保存现有结果并报告 `partial_history_archived`。页面显示收录62条，不代表可以免费取得全部62条，更不代表公众号所有历史。
 
-需在本机环境配置 `DATAXAPI_API_KEY`，来源与教程见 [免登录链接发现](discovery.md)。微信不需要登录；第三方服务的 Key 仍然必需。账号搜索和历史分页会产生服务商请求费用；搜索受 `--search-pages` 限制，账号确定后的历史分页按实际页数计费。脚本每次请求设置 `X-Max-Price: 0.0200`，当前接口单次超过该美元金额应由服务商拒绝执行；这不是整个任务的总价上限。首次可用 `--trial 10` 缩小下载范围并检查数据。
+## 来源与身份
 
-## 账号选择与状态
+详见 [免费发现实战](free-discovery.md)。来源链为公开作者索引 → 同名作者详情页 → “查看原文”微信链接 → 微信正文。核验作者名称、同一公众号 `__biz` 和实际正文提取的公众号名称，不把其他账号的相似标题计入目标。公开HTML只读解析，不执行脚本、不加载远程资源。
 
-名称搜索使用服务商 [wechat.accounts.search](https://dataxapi.com/zh/apis/wechat/accounts/search/)，在搜索已穷尽且只有一个完整名称匹配项时自动选择。忽略大小写、全半角和连续空白差异，保留原始显示名做正文核验。两个同名账号或搜索预算耗尽时停止并生成 `accounts.json`；结合公众号微信号、介绍或一篇已知文章辨认，再在新输出目录加 `--id <真实账号ID>` 可直接跳过搜索。提供ID时必须已核验映射，实际下载仍核验公众号名称。不能默认选择排名第一的近似名称。
+独立执行各阶段：
 
-原始ID传入 [wechat_mp.accounts.articles.list](https://dataxapi.com/zh/apis/wechat_mp/accounts/articles/list/)；服务商不只支持 gh_ 开头ID，脚本也接受其返回的其他字母数字ID。每条文章的 author.id 须与目标一致，实际正文仍须匹配目标名称。
+```sh
+sh scripts/run.sh --free-discover --name 'Best in Class' --limit 10 --output-dir ./free-links
+sh scripts/run.sh --batch --links ./free-links/discovered-links.json --account 'Best in Class' --output-dir ./articles
+sh scripts/run.sh --classify --batch-dir ./articles --rules references/medicine-rules.json --output-dir ./classified
+```
 
-`archive.json` 记录搜索、发现、下载、分类的阶段、计数和停止原因：
+输出均使用新目录，不覆盖原件。遇验证页、403/429、缺正文或账号不符即停止，不自动换代理、重复请求或切换付费服务。
 
-- `available_history_archived`：本次服务商可见页已遍历，取得链接均已保存并归类。
+## 状态与输出
+
+`archive.json` 记录阶段、数量和停止原因：
+
 - `trial_archived`：本次指定样本已保存并归类。
-- `trial_shortfall`：服务商返回的文章少于试跑所需数量，`trial_shortfall`记录缺额，已保存与分类的结果仍保留。
-- `search_budget_reached`：搜索仍有下一页，候选匹配尚未确定；可增加 `--search-pages` 或核验ID后直接运行。
-- `account_selection_required` / `account_not_found`：需要辨认同名账号或搜索未匹配。
-- `stopped`：错误、验证、账号不符或分类校验失败，检查已保留的进度。
-- `no_articles_returned`：服务商未返回文章，不能解释为公众号从未发布过内容。
+- `trial_shortfall`：取得数量不足试跑要求，`trial_shortfall` 记录缺额。
+- `partial_history_archived`：来源达到未登录访问范围，现有结果已保存并归类，尚非完整历史。
+- `available_history_archived`：本次来源可见结果已穷尽并处理，仍不证明公众号全历史完整。
+- `stopped`：网络、验证、来源身份、正文或分类校验失败。
+- `no_articles_returned`：来源没有返回文章，不能解释为公众号从未发布内容。
 
-状态与 `complete_history_verified:false` 同时保留。服务商覆盖可能缺失已删除、付费或未收录文章；搜索和分页跑通不能证明真正全历史完整性。用户要求的“全部历史”仍须与可核验历史目录对账；未完成该对账时不得宣称完整。
+原始发现位于 `discovery/discovery.json`，达到公开3页限制时状态为 `public_access_limit`。链接表位于 `discovery/discovered-links.json`；编号原文位于 `articles/`；分类副本、`catalog.json` 与 `INDEX.md` 位于 `classified/`。`complete_history_verified:false` 保留覆盖边界。
 
-## 输出与续接
-
-账号候选位于 `accounts.json`；分页证据和链接位于 `discovery/`；编号原文位于 `articles/`；分类副本、索引和证据位于 `classified/`。所有运行使用新目录，不覆盖原件。
-
-下载停止后，从 `articles/remaining-links.json` 用 `--batch` 在新目录续接；它包含失败项、待处理项以及因试跑未选中的链接。再对续接批次调用 `--classify`。若尚有未发现的页，从 `discovery/discovery.json` 取 `next_cursor` 原样传给 `--discover --cursor ... --pages all`，再下载新清单。游标过期时需重新查询并与原清单去重，不自动重复整批请求。
+停止后核对 `articles/remaining-links.json`，用 `--batch` 在新目录续接，再调用 `--classify`；该表包含失败、待处理及试跑未选中的链接。来源访问受限时不继续探测受限页面；索引未列出的文章需要其他可核验公开来源或用户提供的真实链接。
 
 ## 正文归类
 
-分类前验证每篇成功项的 SHA256、源链接与账号，跳过失败或未下载项。移除元数据与首个文章标题，只依据实际正文关键词归类。默认主题覆盖医药健康、旅行地理、科技数码、财经商业、教育文化、社会生活；无证据归为未分类。命中类别可有多个标签，得分最高者为主目录，同分按规则顺序选取。分类是可解释的规则结果，智能体可以读正文做进一步语义复核。
+分类前验证成功项的 SHA256、源链接与账号，跳过未成功项。移除元数据与文章标题，只按正文关键词生成主分类、多标签及命中片段。默认通用规则覆盖医药健康、旅行地理、科技数码、财经商业、教育文化、社会生活；无证据归为未分类。
 
-自定义规则示例（另存本机 JSON，用 `--rules` 传入）：
+医药细分规则 `references/medicine-rules.json` 覆盖临床研究、监管审批、商业合作与渠道、企业财报与专利、AI与药物发现。分类为可解释的规则判断，智能体可读正文继续语义复核。自定义规则示例：
 
 ```json
 {
@@ -56,8 +59,12 @@ sh scripts/run.sh --archive --name '公众号名称' --trial 10 --output-dir ./a
 }
 ```
 
-分类目录保留原始 Markdown 内容和远程图片链接；`catalog.json` 包含多标签、命中词、正文证据及哈希。规则不执行文章内容，也不执行用户JSON中的代码。
+分类副本保留原始 Markdown，图片仍为远程URL；不是离线图片归档。规则不执行文章内容或JSON代码。
 
-## 当前验证
+## 显式可选的服务商
 
-2026-11-10完成离线全流程和真实3篇分类。2026-11-11持有效Key执行了名称搜索：5页结果未精确匹配Best in Class，随后余额不足；指定原始ID的历史接口也返回402，未进入下载。已据此加入搜索页预算和已核验ID跳过搜索。首轮真实10篇和全历史完整性仍未完成。源代码、合成测试与公开教程可同步Git，文章全文和私人研究结果留本机。
+旧 DataXAPI 适配器仅在显式选择 `--provider dataxapi` 时调用；需本机 `DATAXAPI_API_KEY` 并可能计费。配置、搜索预算和游标见 [服务商教程](discovery.md)。免费来源未收录或失败时不会自动调用它。
+
+## 真实验证
+
+2026-11-11，免费公开索引可见顺序的前10条，微信原文10/10直接下载成功，未复用旧种子；正文10/10完成归类：临床研究6篇、商业合作与渠道2篇、AI与药物发现1篇、企业财报与专利1篇。此结论只覆盖本次10篇，不证明“最新10篇”或全历史完整性。全文与私人报告留在本机，不随公开技能发布。

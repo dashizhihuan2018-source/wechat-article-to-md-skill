@@ -1,0 +1,10 @@
+{
+  "categories": [
+    {"name":"临床研究","keywords":["临床试验","临床研究","1期","2期","2b期","3期","III期","PFS","PSA","缓解率","FVC","安全性","有效性"],"minMatches":2},
+    {"name":"监管审批","keywords":["FDA批准","获批","加速批准","上市许可","获准","监管批准"],"minMatches":1},
+    {"name":"商业合作与渠道","keywords":["合作协议","分销","商业化","自费","Hims","Foundayo","配送","合作伙伴"],"minMatches":2},
+    {"name":"企业财报与专利","keywords":["财报","每股收益","第三季度","电话会","专利","指引","营收","净利润"],"minMatches":2},
+    {"name":"AI与药物发现","keywords":["人工智能","AI","训练","数据集","化合物","算法"],"minMatches":2}
+  ],
+  "defaultCategory":"其他医药动态"
+}
