@@ -1,0 +1,17 @@
+name: Portable skill checks
+on: [push, pull_request]
+jobs:
+  test:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        node: [22, 24]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: node --test tests/parser.test.cjs tests/batch.test.cjs
+      - run: node scripts/wechat-to-md.cjs --help
+      - run: node scripts/batch.cjs --help
