@@ -31,11 +31,11 @@ fs.writeFileSync(out+'.status.json',JSON.stringify(status),{flag:'wx'});console.
   const runtime={converterPath:converter,now:()=>time,sleep:async ms=>{sleeps.push(ms);time+=ms;}};
   return {dir,links,out,converter,runtime,sleeps,calls:()=>fs.existsSync(path.join(dir,'calls.jsonl'))?fs.readFileSync(path.join(dir,'calls.jsonl'),'utf8').trim().split('\n').map(JSON.parse):[]};
 }
-function api(){assert.ok(fs.existsSync(batchFile),'bounded batch runner must exist');return require(batchFile);}
+function api(){assert.ok(fs.existsSync(batchFile),'serial batch runner must exist');return require(batchFile);}
 
-test('bounded inputs reject unsafe URLs, limits and fast production intervals before creating outputs',async t=>{
+test('serial inputs reject unsafe URLs, invalid limits and fast production intervals before creating outputs',async t=>{
   const {runBatch}=api();
-  for(const [entries,extra] of [[['https://example.test/s/a'],{}],[[articleUrl('a')],{limit:11}],[[articleUrl('a')],{limit:0}],[[articleUrl('a')],{intervalSeconds:59}],[[articleUrl('a'),articleUrl('a')],{}]]){
+  for(const [entries,extra] of [[['https://example.test/s/a'],{}],[[articleUrl('a')],{limit:0}],[[articleUrl('a')],{limit:1.5}],[[articleUrl('a')],{intervalSeconds:59}],[[articleUrl('a'),articleUrl('a')],{}]]){
     const f=fixture(t,entries);await assert.rejects(runBatch({links:f.links,outputDir:f.out,...extra},f.runtime));assert.equal(fs.existsSync(f.out),false);assert.equal(f.calls().length,0);
   }
 });
@@ -62,7 +62,16 @@ test('an account mismatch or missing account preserves the article but stops the
     assert.equal(r.items[0].status,'account_mismatch');assert.equal(r.counts.converted,0);assert.equal(f.calls().length,1);assert.ok(fs.existsSync(path.join(f.out,'001','article.md')));
   }
 });
-test('existing output is never overwritten and plain-text order is retained with a bounded selection',async t=>{
+test('all entries are selected by default while an optional positive limit supports a shorter trial',async t=>{
+  const entries=Array.from({length:12},(_,i)=>articleUrl('all-'+i));
+  const all=fixture(t,entries);
+  const complete=await api().runBatch({links:all.links,outputDir:all.out},all.runtime);
+  assert.equal(complete.status,'completed');assert.equal(complete.items.length,12);assert.equal(complete.counts.converted,12);assert.equal(complete.selection,'all');assert.equal(complete.limit,null);assert.equal(all.sleeps.length,11);
+  const trial=fixture(t,entries);
+  const limited=await api().runBatch({links:trial.links,outputDir:trial.out,limit:2},trial.runtime);
+  assert.equal(limited.items.length,2);assert.equal(limited.counts.unselected,10);assert.equal(limited.selection,'limited');assert.equal(limited.limit,2);
+});
+test('existing output is never overwritten and plain-text order is retained',async t=>{
   const f=fixture(t,[]);fs.writeFileSync(f.links,articleUrl('a')+'\n\n'+articleUrl('b')+'\n');
   const r=await api().runBatch({links:f.links,outputDir:f.out,limit:1},f.runtime);assert.equal(r.items.length,1);assert.equal(r.counts.unselected,1);
   const before=fs.readFileSync(path.join(f.out,'001','article.md'),'utf8');await assert.rejects(api().runBatch({links:f.links,outputDir:f.out},f.runtime),/exist/i);assert.equal(fs.readFileSync(path.join(f.out,'001','article.md'),'utf8'),before);

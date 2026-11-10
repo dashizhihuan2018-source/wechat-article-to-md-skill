@@ -1,4 +1,4 @@
 interface:
   display_name: "微信文章整理skill"
-  short_description: "把微信文章整理为本机 Markdown，支持最多10篇已核验链接的有界批次与正文研究"
-  default_prompt: "使用 $wechat-article-to-md-skill 整理我授权的微信文章：先核验链接、公众号与排序，逐篇保存为 Markdown；批次最多10篇，遇验证或账号不符即停止，基于已取得的正文做有依据的分类与研究。"
+  short_description: "把微信文章整理为本机 Markdown，支持已核验链接的串行批次与正文研究"
+  default_prompt: "使用 $wechat-article-to-md-skill 整理我授权的微信文章：先核验链接、公众号与排序，逐篇保存为 Markdown；默认处理全部已核验链接，也可用 --limit 试跑少量文章，遇验证或账号不符即停止，并基于已取得的正文做有依据的分类与研究。"

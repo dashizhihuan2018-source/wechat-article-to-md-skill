@@ -1,8 +1,8 @@
 {
   "name": "wechat-article-to-md-skill",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
-  "description": "微信文章整理skill — local Markdown and bounded, verified batches of up to 10 WeChat articles",
+  "description": "微信文章整理skill — local Markdown and serial verified batches with no fixed article-count limit",
   "license": "MIT",
   "engines": {"node": ">=18"},
   "scripts": {"test": "node --test tests/*.test.cjs", "build": "node scripts/build.cjs"},
