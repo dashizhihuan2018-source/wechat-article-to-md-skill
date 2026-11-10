@@ -12,6 +12,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
-      - run: node --test tests/parser.test.cjs tests/batch.test.cjs
+      - run: node --test tests/*.test.cjs
       - run: node scripts/wechat-to-md.cjs --help
       - run: node scripts/batch.cjs --help

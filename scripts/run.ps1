@@ -8,6 +8,11 @@ if ($cliArguments.Count -gt 0 -and $cliArguments[0] -eq '--batch') {
     $cliArguments = @($cliArguments | Select-Object -Skip 1)
 }
 $converter = Join-Path $PSScriptRoot $entry
+if ($cliArguments.Count -gt 0 -and $cliArguments[0] -eq '--discover') {
+    $entry = 'discover.cjs'
+    $cliArguments = @($cliArguments | Select-Object -Skip 1)
+    $converter = Join-Path $PSScriptRoot $entry
+}
 
 function Test-UsableNode([string] $Executable) {
     try {

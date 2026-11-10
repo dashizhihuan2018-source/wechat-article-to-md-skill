@@ -20,7 +20,7 @@ Windows PowerShell：
 
 ## 作为 Skill 安装
 
-从 [v0.3.0 发布页](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.3.0) 下载 ZIP，解压得到 `wechat-article-to-md-skill` 文件夹。`.skill` 附件也是同内容 ZIP，供支持该格式的技能管理器导入。
+从 [v0.4.0 发布页](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.4.0) 下载 ZIP，解压得到 `wechat-article-to-md-skill` 文件夹。`.skill` 附件也是同内容 ZIP，供支持该格式的技能管理器导入。
 
 Codex 用户将文件夹复制到以下目录，确认 `SKILL.md` 直接位于该文件夹内，再重新打开会话：
 
@@ -42,6 +42,8 @@ node scripts/wechat-to-md.cjs --url 'https://mp.weixin.qq.com/s/文章ID' --html
 微信可能向本机请求返回验证页。遇到验证立即停止，**不保证任意文章、网络或平台都能只凭链接取得全文**。图片保留远程链接，公众号全历史下载不在本版范围内。
 
 ## 串行批次与正文研究
+
+支持 [免登录微信的历史链接发现](references/discovery.md)：`sh scripts/run.sh --discover --id gh_账号ID --pages 1 --output-dir ./discovery`。需在本机配置 DataXAPI 服务商的 Key；`--pages all` 可遍历其可见全部页，不设文章篇数上限。当前已验证官方请求结构与本地分页，第三方账号覆盖尚未持 Key 实测。发现的链接可直接交给 `--batch`，正常文章正文仍由本机转换器读取。
 
 支持用户已授权、已核验顺序的文章清单，不设固定篇数上限。默认处理清单中的全部文章；`--limit` 只用于试跑少量样本，不是产品上限。先通过正常可访问的公众号历史列表核对账号与链接，记录排序依据；公众号名称不是“全历史 API”。设备锁屏、链接未知或访问受限时保留已有种子与进度，等待正常访问恢复，不猜造文章或声称批次已完成。
 
