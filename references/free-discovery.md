@@ -45,7 +45,7 @@ Windows：
 
 `articles/batch-index.json` 与每篇 `article.md.status.json` 记录下载结果；`classified/catalog.json` 包含多标签、命中词、正文证据；`classified/INDEX.md` 供阅读跳转。副本保留原Markdown，图片仍为远程URL。
 
-公开教程展示方法、统计与验证边界。文章全文、私人分类证据及研究报告不上传公有 Git。
+公开教程展示方法、统计与验证边界。本案例的内容研究报告《创新药竞争的三条主线》提供[在线阅读与PDF下载](https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/#research)，附录为原文标题、链接与二维码。第三方文章全文、私人分类证据与其他未经确认公开的报告不上传公有 Git。
 
 ## 覆盖范围
 

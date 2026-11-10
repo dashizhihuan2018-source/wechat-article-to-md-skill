@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="用微信文章整理skill，免费、免登录微信，将Best in Class的10篇真实文章保存为Markdown并按正文归类。完整教程与核验目录。">
+  <meta name="description" content="用微信文章整理skill，免费、免登录微信，将Best in Class的10篇真实文章保存为Markdown并按正文归类。完整教程、核验目录与研究报告PDF下载。">
   <meta name="theme-color" content="#142c49">
   <title>微信公众号文章，可以批量下载啦 · 微信文章整理skill</title>
   <link rel="preload" href="assets/fonts/wechat-archive-serif-bold.woff2" as="font" type="font/woff2" crossorigin>
@@ -14,7 +14,7 @@
   <a class="skip-link" href="#main">跳到正文</a>
   <header class="site-header">
     <a class="brand" href="#"><span class="brand-mark" aria-hidden="true">MD</span><span>微信文章整理<span class="brand-small">skill / v0.6.0</span></span></a>
-    <nav aria-label="主导航"><a href="#tutorial">使用教程</a><a href="#archive">十篇目录</a><a href="https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
+    <nav aria-label="主导航"><a href="#tutorial">使用教程</a><a href="#archive">十篇目录</a><a href="#research">研究报告</a><a href="https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill" target="_blank" rel="noopener noreferrer">GitHub ↗</a></nav>
   </header>
   <main id="main">
     <section class="hero" aria-labelledby="hero-title">
@@ -34,7 +34,7 @@
         <div class="steps">
           <article id="step-download" class="step"><span class="step-number">01 / 准备</span><h3>下载、解压，进入 Skill 文件夹</h3><p>下载 <a href="https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.6.0" target="_blank" rel="noopener noreferrer">v0.6.0 发布包</a>，解压得到 <code>wechat-article-to-md-skill</code> 文件夹，在这个文件夹中打开终端。</p><p>已有 Node.js 18+ 会直接复用；缺少时，启动器会从 Node.js 官方下载并校验运行环境，安装到用户私有目录。转换依赖已打包，不需要运行 <code>npm install</code>。</p><a class="small-link" href="https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/blob/main/references/environment.md" target="_blank" rel="noopener noreferrer">完整环境准备与故障排查 ↗</a></article>
           <article id="step-run" class="step"><span class="step-number">02 / 执行</span><h3>输入名称，先整理 10 篇</h3><p>本例使用 <code>Best in Class</code>。<code>--trial 10</code> 只限定这次试跑，不是 Skill 的篇数上限。医药规则文件会把文章进一步分到临床、商业、财报与 AI 等主题。</p><div class="command-box"><div class="command-bar"><div class="platforms" role="group" aria-label="选择系统"><button type="button" data-platform="mac" aria-pressed="true">macOS / Linux</button><button type="button" data-platform="windows" aria-pressed="false">Windows</button></div><button class="copy-button" id="copy-command" type="button">复制命令</button></div><pre><code id="run-command">sh scripts/run.sh --archive --name 'Best in Class' --trial 10 --rules references/medicine-rules.json --output-dir './Best-in-Class-10'</code></pre><p class="command-feedback" id="copy-feedback" role="status" aria-live="polite"></p></div><p class="note">每篇请求串行执行，上一篇结束后至少间隔 60 秒。遇验证码、访问受限或账号不匹配会停止，并保留已完成的文件和续接清单。</p></article>
-          <article id="step-results" class="step"><span class="step-number">03 / 结果</span><h3>先看索引，再读正文</h3><div class="file-map"><div><code>archive.json</code><span>本次阶段、数量、停止原因</span></div><div><code>discovery/</code><span>公开来源与核验后的原文链接</span></div><div><code>articles/</code><span>逐篇 Markdown、状态与哈希</span></div><div><code>classified/INDEX.md</code><span>按主题浏览文章</span></div><div><code>classified/catalog.json</code><span>多标签、命中词与正文证据</span></div></div><p>分类先核验来源、账号和文件哈希，再根据正文关键词判断。分类副本保持原文内容不变；规则结果可以继续由智能体读正文复核。</p><p class="note">图片保留远程 URL，本次结果不是离线图片归档。10 篇完整正文保留在本机，本网站仅展示目录和核验元数据。</p></article>
+          <article id="step-results" class="step"><span class="step-number">03 / 结果</span><h3>先看索引，再读正文</h3><div class="file-map"><div><code>archive.json</code><span>本次阶段、数量、停止原因</span></div><div><code>discovery/</code><span>公开来源与核验后的原文链接</span></div><div><code>articles/</code><span>逐篇 Markdown、状态与哈希</span></div><div><code>classified/INDEX.md</code><span>按主题浏览文章</span></div><div><code>classified/catalog.json</code><span>多标签、命中词与正文证据</span></div></div><p>分类先核验来源、账号和文件哈希，再根据正文关键词判断。分类副本保持原文内容不变；规则结果可以继续由智能体读正文复核。</p><p class="note">图片保留远程 URL，本次结果不是离线图片归档。10 篇完整正文保留在本机，本网站提供整理目录、核验元数据及据此形成的研究报告。</p></article>
           <article id="step-skill" class="step"><span class="step-number">04 / 复用</span><h3>让支持 Skill 的智能体代你执行</h3><p>将解压后的文件夹放入智能体的技能目录。Codex 的位置是 macOS / Linux 的 <code>~/.codex/skills/</code> 或 Windows 的 <code>%USERPROFILE%\.codex\skills\</code>，确认 <code>SKILL.md</code> 位于技能文件夹中，再重新打开会话。</p><blockquote>使用 $wechat-article-to-md-skill，免费整理 Best in Class 的 10 篇文章，保存为 Markdown，并按正文归类。</blockquote><p>已有微信文章链接也可以单篇转换。换公众号时，先检查免费公开目录是否收录；没有收录时会报告缺口，不会用其他公众号凑数。</p></article>
         </div>
       </div>
@@ -44,6 +44,14 @@
       <div class="section-heading"><p class="eyebrow">真实案例目录</p><h2 id="archive-title">十篇文章，四个归档位置。</h2><p>本例选取免费公开目录的前 10 条，并逐一读取微信原文。顺序来自公开索引，不代表已核验公众号最新 10 篇。</p></div>
       <div class="archive-toolbar"><div class="folder-tabs" id="category-filters" role="group" aria-label="按主分类筛选"><button type="button" data-category="all" aria-pressed="true">全部 <span>10</span></button><button type="button" data-category="临床研究" aria-pressed="false">临床研究 <span>6</span></button><button type="button" data-category="商业合作与渠道" aria-pressed="false">商业合作与渠道 <span>2</span></button><button type="button" data-category="AI与药物发现" aria-pressed="false">AI 与药物发现 <span>1</span></button><button type="button" data-category="企业财报与专利" aria-pressed="false">企业财报与专利 <span>1</span></button></div><p id="visible-count" role="status" aria-live="polite">正在载入核验目录…</p></div>
       <div id="article-list" class="article-list"></div><noscript><p>请开启 JavaScript 查看可筛选目录，或直接下载 <a href="case-data.json">十篇核验元数据 JSON</a>。</p></noscript><p class="archive-footnote">点击标题展开核验信息。显示日期来自 ByDrug 列表 / 详情页，未作为微信原文发布时间元数据的独立核验。字节数与 SHA256 对应本次生成的 Markdown。</p>
+    </section>
+
+    <section id="research" class="section research-section" aria-labelledby="research-title">
+      <div class="section-heading"><p class="eyebrow">十篇文章的整理案例</p><h2 id="research-title">从原文目录，到研究报告。</h2><p>保存和归类之后，继续阅读这 10 篇正文，提炼可以交叉比较的研究问题。</p></div>
+      <article class="research-case" aria-labelledby="report-title">
+        <a class="report-cover" href="reports/best-in-class-research-v1.2.pdf" target="_blank" rel="noopener" aria-label="在线阅读：创新药竞争的三条主线"><img src="assets/research-cover-v1.2.webp" alt="创新药竞争的三条主线，研究报告封面" width="420" height="594" loading="lazy"></a>
+        <div class="report-copy"><p class="report-label">Best in Class · 十篇文章观察</p><h3 id="report-title">创新药竞争的三条主线</h3><p class="report-subtitle">临床证据、商业可及性与研发效率</p><p>报告依据本案例的 10 篇公众号文章，从临床研究、GLP-1 商业竞争及 AI 药物发现三个方向展开，保留不同研究阶段、分析人群与结论的适用范围。</p><ul class="report-topics"><li><strong>临床证据</strong><span>六篇报道的证据矩阵，区分早期信号、比较研究与确证阶段。</span></li><li><strong>商业可及性</strong><span>结合地域供应、数字渠道、价格支付与专利竞争交叉分析。</span></li><li><strong>研发效率</strong><span>从 Vertex 个案讨论计算生成、实验测量与临床验证的关系。</span></li></ul><div class="report-actions"><a class="button primary" id="download-report" href="reports/best-in-class-research-v1.2.pdf" download="创新药竞争的三条主线-Best-in-Class十篇文章研究-v1.2.pdf">下载研究报告（PDF）<span aria-hidden="true">↓</span></a><a class="text-link" href="reports/best-in-class-research-v1.2.pdf" target="_blank" rel="noopener">在线阅读 ↗</a></div><p class="report-meta">A4 标准蓝画册 · 18 页 · PDF 742 KB · v1.2</p><p class="report-note">附录提供十篇公众号原文的标题、链接与二维码，扫码即可查看原文，方便逐篇核对。研究结论限于本次样本。</p></div>
+      </article>
     </section>
 
     <section id="scope" class="scope section" aria-labelledby="scope-title"><div><p class="eyebrow">知道范围，才能复用</p><h2 id="scope-title">免费可用，覆盖有边界。</h2></div><div class="scope-copy"><p>本次免费来源是 <a href="https://bydrug.pharmcube.com/news/summary/source/Best%20in%20Class" target="_blank" rel="noopener noreferrer">ByDrug 的公开作者目录</a>。目录显示收录 62 条，但该网站未登录时仅开放前 3 页；Skill 遵守这个限制，不请求第 4 页。</p><p>Skill 没有固定文章篇数上限；免费来源的收录范围和页面权限决定当前可取得的内容。10 篇成功不等于全部历史已经完整，也不意味着任意公众号都能使用这一来源。</p><p>默认免费流程不要求微信登录或 API Key，不会自动调用 DataXAPI。付费接口仍为显式可选配置，详见源仓库的 <a href="https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/blob/main/references/archive.md" target="_blank" rel="noopener noreferrer">完整归档说明</a>。</p></div></section>

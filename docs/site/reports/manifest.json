@@ -1,0 +1,18 @@
+{
+  "title": "创新药竞争的三条主线",
+  "subtitle": "临床证据、商业可及性与研发效率",
+  "version": "1.2",
+  "date": "2026-11-11",
+  "file": "best-in-class-research-v1.2.pdf",
+  "cover": "../assets/research-cover-v1.2.webp",
+  "pages": 18,
+  "page_size": "A4",
+  "bytes": 759749,
+  "sha256": "74931af08e79abd8df6f82d00bab2791273126d2cf910cefc69f3123ef84257d",
+  "source_article_count": 10,
+  "appendix": {
+    "type": "original_article_index",
+    "entries": 10,
+    "includes_full_text": false
+  }
+}

@@ -20,6 +20,8 @@ sh scripts/run.sh --archive --name '公众号名称' --output-dir './account-arc
 sh scripts/run.sh --archive --name 'Best in Class' --trial 10 --rules references/medicine-rules.json --output-dir './best-in-class-trial'
 ```
 
+这10篇的内容研究案例见[在线报告与PDF下载](https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/#research)：《创新药竞争的三条主线》，采用A4标准蓝画册，附十篇原文索引。
+
 方法见 [免费发现实战教程](references/free-discovery.md)。旧 DataXAPI 路径保留为显式可选项 `--provider dataxapi`，不会因免费来源缺失而自动调用或收费。
 
 下载完整发布包、解压即可运行。启动器自动检测 Node.js；缺失时从官方源下载、校验并安装到用户私有目录。转换依赖已打包，无需 npm 安装：
