@@ -1,5 +1,5 @@
 {
-  "release_id": "20261111-pages-downloads-r1",
+  "release_id": "20261111-case2-r1",
   "site": "https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/",
   "skill_version": "0.6.0",
   "report_version": "1.2",
@@ -30,6 +30,16 @@
       "sha256": "3fa6db804828f2824a3b0433e8e423c40e2b071a2acae1ade52b9a94c50f304d"
     },
     {
+      "path": "assets/yuanfangqingmu-cover-v1.2.webp",
+      "bytes": 50570,
+      "sha256": "7b1ed0f8826a7af1744362598c0b07983ff3bc1c8233baf76e130c100d133724"
+    },
+    {
+      "path": "case-data-yuanfangqingmu.json",
+      "bytes": 5257,
+      "sha256": "feab56779cfd428b3a866523646284ca6e93b70ef79c083d481b4776e055ae7a"
+    },
+    {
       "path": "case-data.json",
       "bytes": 6351,
       "sha256": "70ab2a2a637c88937f8057168719d18a3ab923410f00f35a1c9fbfc8bf97abdd"
@@ -56,8 +66,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 13099,
-      "sha256": "037d421d7fcba34d082a822876ce6357ae745bcb779b9ab350d91feabfcf82f0"
+      "bytes": 15612,
+      "sha256": "b2dcca8327d72a4aff93979e0502850fdfb3cc16baad72e8c3ca791dc87fd6da"
     },
     {
       "path": "reports/best-in-class-research-v1.2.pdf",
@@ -65,19 +75,30 @@
       "sha256": "74931af08e79abd8df6f82d00bab2791273126d2cf910cefc69f3123ef84257d"
     },
     {
+      "path": "reports/manifest-yuanfangqingmu.json",
+      "bytes": 733,
+      "sha256": "acf7d8660b941ca5193eb3931c0b23cc53b6d906863479d4a05bc66206e8b899"
+    },
+    {
       "path": "reports/manifest.json",
       "bytes": 524,
       "sha256": "e69cdb7e67486a551af28f3aac7d681053229a1ae00095adc115fd652a9cf7db"
     },
     {
+      "path": "reports/yuanfangqingmu-headline-review-v1.2.pdf",
+      "bytes": 655246,
+      "sha256": "dbe899b69e2de757d81c610b1bacf35c7af755060c4c4764d75d054ef899d47c"
+    },
+    {
       "path": "styles.css",
-      "bytes": 15498,
-      "sha256": "d53bf936952408e43b0c3cd295850038fa82474b2e71aface8346cf03c6a076c"
+      "bytes": 15661,
+      "sha256": "11b6b6e4571ec141cb998af686e89428a173725e1a17ee8cbcd540e1780a0fa4"
     },
     {
       "path": "tutorial.js",
       "bytes": 4714,
       "sha256": "7e49a918185d6a6cc26e60e65110fc3f296a094a0f8c5ee2b4d91939696cdeb0"
     }
-  ]
+  ],
+  "case_count": 2
 }

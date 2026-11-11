@@ -1,0 +1,112 @@
+{
+  "account": "远方青木",
+  "range": "2026-11-01 ~ 2026-11-10",
+  "verified_articles": 8,
+  "original_wechat_fulltext_archives": 6,
+  "days_without_findings": [
+    "2026-11-03",
+    "2026-11-07"
+  ],
+  "boundary_note": "2026-10-31 为范围外边界项，不纳入发布日口径；11-03 / 11-07 为「未发现」，不能确认休更。",
+  "public_report": "reports/yuanfangqingmu-headline-review-v1.2.pdf",
+  "public_report_note": "18 页 A4 摘要版；不含公众号原文全文与原文配图。",
+  "local_reference_note": "68 页完整版含 6 篇原号全文与 34 张按原位置插入的配图，标注「内部参考 · 不得外发」，仅保存在本机，不在本站发布。",
+  "articles": [
+    {
+      "id": 1,
+      "published_at": "2026-11-01 23:38",
+      "title": "波兰政变，亲欧派总理和亲美派总统打起来了",
+      "topic": "国际政治",
+      "evidence": "署名镜像全文 + 授权转载号全文",
+      "original_wechat_url": null,
+      "original_url_note": "原号微信 URL 未核实，未凭 mid 规律推测拼接",
+      "full_text_archived": false,
+      "in_public_report": false,
+      "in_local_fulltext_appendix": false
+    },
+    {
+      "id": 2,
+      "published_at": "2026-11-02 23:41",
+      "title": "糖果在古代是贵族奢侈品，白糖又称白色黄金",
+      "topic": "历史科普",
+      "evidence": "远方青木原号微信原文",
+      "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854103&idx=1&sn=c84d78fcf2a399c53dfea8e082f9de43&chksm=ff8559a97075e701cde9b0994d367e00e3f5c9ffc12d3a884797c63392c62668ac85ac07f872#rd",
+      "original_url_note": null,
+      "full_text_archived": true,
+      "in_public_report": false,
+      "in_local_fulltext_appendix": true
+    },
+    {
+      "id": 3,
+      "published_at": "2026-11-04 23:49",
+      "title": "特朗普惨败，两院全丢，连德州都翻蓝了",
+      "topic": "美国政治",
+      "evidence": "远方青木原号微信原文",
+      "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854147&idx=1&sn=d0b1f25a2e010702ecb2d5934de56f16&chksm=ffb533edab797a9d8187970cfd3164332c51bd6d266d30e21e15e71ed6c84bee4c11750f0575#rd",
+      "original_url_note": null,
+      "full_text_archived": true,
+      "in_public_report": false,
+      "in_local_fulltext_appendix": true
+    },
+    {
+      "id": 4,
+      "published_at": "2026-11-05 23:42",
+      "title": "马斯克犯下的罪行，特朗普准备赦免",
+      "topic": "美国政治",
+      "evidence": "远方青木原号微信原文",
+      "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854172&idx=1&sn=bad002bc3fc0bd6eff47acf233110378&chksm=ffaeda9c7c733538731ef072c62ca2ec9ffb3cb7133ba532a94982d1c8bdfa12ec8aabae09d4#rd",
+      "original_url_note": null,
+      "full_text_archived": true,
+      "in_public_report": false,
+      "in_local_fulltext_appendix": true
+    },
+    {
+      "id": 5,
+      "published_at": "2026-11-06 23:56",
+      "title": "民主党扬言禁止AI，生产关系反作用于生产力",
+      "topic": "科技与AI",
+      "evidence": "新浪财经署名镜像全文 + 授权转载号全文",
+      "original_wechat_url": null,
+      "original_url_note": "原号微信 URL 未核实，未凭 mid 规律推测拼接",
+      "full_text_archived": false,
+      "in_public_report": false,
+      "in_local_fulltext_appendix": false
+    },
+    {
+      "id": 6,
+      "published_at": "2026-11-08 23:16",
+      "title": "南京大学认为抬头发呆是好学生，低头沉思是坏学生",
+      "topic": "社会民生",
+      "evidence": "远方青木原号微信原文",
+      "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854242&idx=1&sn=17945eddd2b9809210ff7dded776b54f&chksm=ff6d70fee9430c8e75dae8767930653e223a8c6ed8e4ec397cf0ef94e9191ee6b217dd520fde#rd",
+      "original_url_note": null,
+      "full_text_archived": true,
+      "in_public_report": false,
+      "in_local_fulltext_appendix": true
+    },
+    {
+      "id": 7,
+      "published_at": "2026-11-09 23:58",
+      "title": "美国CIA监控1年，发现黄仁勋出轨",
+      "topic": "美国政治",
+      "evidence": "远方青木原号微信原文",
+      "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854269&idx=1&sn=ceafdbce41f5c9c1a2ca596fdeec8135&chksm=ff06213c845503cd5f193673ad95c81248a695056741e7aa82d20e330b0618e496677bbbf4e8#rd",
+      "original_url_note": null,
+      "full_text_archived": true,
+      "in_public_report": false,
+      "in_local_fulltext_appendix": true
+    },
+    {
+      "id": 8,
+      "published_at": "2026-11-10 23:17",
+      "title": "讨论3990次后提交的法国预算案，458票反对0票赞成",
+      "topic": "国际政治",
+      "evidence": "远方青木原号微信原文",
+      "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854301&idx=1&sn=3448e7a2dd185f2c859ee0b24feff299&chksm=fffb43f9dc894739cbd11b4b81df3344468abbceff77eb86fbc4e779d737997320f8859b9a1e#rd",
+      "original_url_note": null,
+      "full_text_archived": true,
+      "in_public_report": false,
+      "in_local_fulltext_appendix": true
+    }
+  ]
+}

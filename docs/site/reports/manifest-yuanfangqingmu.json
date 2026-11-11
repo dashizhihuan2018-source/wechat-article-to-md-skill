@@ -1,0 +1,19 @@
+{
+  "title": "远方青木近十日头条观察",
+  "subtitle": "议题脉络、论证方法与核验边界",
+  "version": "1.2",
+  "date": "2026-11-11",
+  "file": "yuanfangqingmu-headline-review-v1.2.pdf",
+  "cover": "../assets/yuanfangqingmu-cover-v1.2.webp",
+  "pages": 18,
+  "page_size": "A4",
+  "bytes": 655246,
+  "sha256": "dbe899b69e2de757d81c610b1bacf35c7af755060c4c4764d75d054ef899d47c",
+  "source_article_count": 8,
+  "appendix": {
+    "type": "verification_notes",
+    "includes_full_text": false,
+    "note": "公开版仅含观察摘要与核验说明。含 6 篇原号全文与 34 张原文配图的 68 页完整版为本地内部参考，不在本站公开。"
+  },
+  "case_data": "../case-data-yuanfangqingmu.json"
+}
