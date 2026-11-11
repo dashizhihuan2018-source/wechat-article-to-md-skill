@@ -10,6 +10,7 @@ case "${1:-}" in
   --free-discover) entry=free-discover.cjs; shift ;;
   --archive) entry=archive.cjs; shift ;;
   --classify) entry=classify.cjs; shift ;;
+  --import) entry=import-links.cjs; shift ;;
 esac
 fail() { printf '%s\n' "环境准备失败：$*" "请参阅 $script_dir/../references/environment.md；也可从 https://nodejs.org/en/download 安装 Node.js 18+ 后重试。" >&2; exit 1; }
 usable_node() { "$1" -e 'process.exit(Number(process.versions.node.split(".")[0]) >= 18 ? 0 : 1)' >/dev/null 2>&1; }

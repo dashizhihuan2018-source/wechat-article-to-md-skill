@@ -19,9 +19,10 @@ async function archive(options,runtime={}) {
   if(provider==='bydrug'&&options.id)throw Error('--id is for the explicit dataxapi provider; use --biz with the free provider');
   // 时间要求必须在建目录、发请求之前校验：非法区间属于预检失败，不留下半成品输出。
   const dateWindow=parseDateWindow(options);
-  const discoveryLimit=dateWindow&&trial!==undefined?Math.min(200,trial*3):trial;
+  // 有窗口且给了 --trial 时过采样，避免窗口把样本吃光；不设绝对上限，由用户的 --trial 决定成本。
+  const discoveryLimit=dateWindow&&trial!==undefined?trial*3:trial;
   const out=path.resolve(options.outputDir);fs.mkdirSync(path.dirname(out),{recursive:true});fs.mkdirSync(out);
-  const state={schema_version:1,provider,requested_account:options.name.trim(),selection:trial===undefined?(dateWindow?'date_window':'all_available_history'):'trial',trial_limit:trial??null,date_window:dateWindow?{requested:dateWindow.requested,since:dateWindow.since,until:dateWindow.until,days:dateWindow.days,computed_at:dateWindow.computed_at,label:dateWindow.label}:null,date_filter:null,discovery_limit:discoveryLimit??null,discovery_limit_reason:dateWindow&&trial!==undefined?'oversampled 3x (max 200) so the date window can still fill --trial':'none',started_at:new Date().toISOString(),status:'searching',stage:'search',complete_history_verified:false,account:null,counts:{discovered:0,completed:0,classified:0},error:null};
+  const state={schema_version:1,provider,requested_account:options.name.trim(),selection:trial===undefined?(dateWindow?'date_window':'all_available_history'):'trial',trial_limit:trial??null,date_window:dateWindow?{requested:dateWindow.requested,since:dateWindow.since,until:dateWindow.until,days:dateWindow.days,computed_at:dateWindow.computed_at,label:dateWindow.label}:null,date_filter:null,discovery_limit:discoveryLimit??null,discovery_limit_reason:dateWindow&&trial!==undefined?'oversampled 3x so the date window can still fill --trial':'none',started_at:new Date().toISOString(),status:'searching',stage:'search',complete_history_verified:false,account:null,counts:{discovered:0,completed:0,classified:0},error:null};
   let revision=0;
   const save=(name,value)=>{const tmp=path.join(out,'.archive-'+revision++);fs.writeFileSync(tmp,JSON.stringify(value,null,2)+'\n',{flag:'wx',mode:0o600});fs.renameSync(tmp,path.join(out,name));};
   const checkpoint=()=>save('archive.json',state);

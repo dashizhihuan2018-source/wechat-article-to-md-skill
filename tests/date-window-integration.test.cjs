@@ -20,11 +20,14 @@ function fixture(t,{dated=true}={}) {
   const wrapper=path.join(root,'converter.cjs'),real=path.resolve(__dirname,'../scripts/wechat-to-md.cjs');
   fs.writeFileSync(wrapper,`const cp=require('node:child_process');const r=cp.spawnSync(process.execPath,[${JSON.stringify(real)},...process.argv.slice(2),'--html',${JSON.stringify(seed)}],{stdio:'inherit'});process.exitCode=r.status??1;`);
   const conversions=[];
-  const indexHtml=`<title>⌈${name}⌋-新闻来源聚合 -共${rows.length}条- 第1页</title>`+rows.map(row=>`<div class="item-news"><a class="news-title" href="/news/detail/${String(row.mid).padStart(32,'0')}">${row.title}</a><a href="/news/summary/source/${encodeURIComponent(name)}">${name}</a></div>`).join('');
+  const indexRows=rows.map(row=>`<div class="item-news"><a class="news-title" href="/news/detail/${String(row.mid).padStart(32,'0')}">${row.title}</a><a href="/news/summary/source/${encodeURIComponent(name)}">${name}</a></div>`).join('');
+  const indexHtml=`<title>⌈${name}⌋-新闻来源聚合 -共${rows.length}条- 第1页</title>`+indexRows;
+  // 第二页起上游给空页：即自然耗尽。翻页不再有内置上限，靠空页收尾。
+  const emptyPage=page=>`<title>⌈${name}⌋-新闻来源聚合 -共${rows.length}条- 第${page}页</title>`;
   const runtime={
     public:{sleep:async()=>{},fetch:async url=>{
       const u=new URL(url);
-      if(u.pathname.includes('/summary/'))return {ok:true,text:async()=>indexHtml};
+      if(u.pathname.includes('/summary/')){const page=Number(u.searchParams.get('page')||1);return {ok:true,text:async()=>page===1?indexHtml:emptyPage(page)};}
       const mid=Number(u.pathname.split('/').pop()),row=rows.find(x=>x.mid===mid);
       return {ok:true,text:async()=>detail(row,{dated})};
     }},

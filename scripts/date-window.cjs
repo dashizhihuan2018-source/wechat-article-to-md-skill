@@ -56,6 +56,6 @@ function applyDateWindow(links,window,{undated='exclude'}={}){
     else kept.push(link);
   }
   const attempted=undated==='attempt'?kept.concat(unknown):kept;
-  return {links:attempted,filter:{requested:window.requested,since:window.since,until:window.until,computed_at:window.computed_at,undated_policy:undated,counts:{input:links.length,kept:kept.length,before:before.length,after:after.length,undated:unknown.length,selected:attempted.length},undated_urls:unknown.slice(0,20).map(x=>x.url)}};
+  return {links:attempted,filter:{requested:window.requested,since:window.since,until:window.until,computed_at:window.computed_at,undated_policy:undated,counts:{input:links.length,kept:kept.length,before:before.length,after:after.length,undated:unknown.length,selected:attempted.length},undated_urls:unknown.map(x=>x.url)}};
 }
 module.exports={parseDateWindow,applyDateWindow,dateOf,isoDate,shiftDays};

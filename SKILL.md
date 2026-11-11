@@ -1,6 +1,6 @@
 ---
 name: wechat-article-to-md-skill
-description: 输入公众号名称与下载要求（篇数、天数、起止日期），从免费公开索引发现原微信链接，下载为本机Markdown并按正文归类；也支持单篇直链和已核验清单。默认无需API Key或微信登录，适用于公开索引已收录的公众号；记录覆盖范围和未完成项。
+description: 输入公众号名称与下载要求（篇数、天数、起止日期），从免费公开索引发现原微信链接，下载为本机Markdown并按正文归类；也支持粘贴手机复制的文章链接一键转、单篇直链和已核验清单。默认无需API Key或微信登录，适用于公开索引已收录的公众号；记录覆盖范围和未完成项。
 ---
 
 # 微信文章整理skill
@@ -16,7 +16,7 @@ sh scripts/run.sh --archive --name '公众号名称' --since 2026-10-31 --until 
 
 窗口按原文详情页核实的发布日期过滤，落在窗口外的原文一次都不下载。过滤结果写入 `archive.json` 的 `date_filter.counts`（`input`／`kept`／`before`／`after`／`undated`／`selected`），命中为空的 `in-window-links.json` 不生成、状态为 `no_articles_in_window`。归档使用 `undated: exclude`：日期无法核实的链接不计入窗口，只列在 `date_filter.undated_urls` 供人工复核，绝不用文件名或 `mid` 规律猜补。
 
-来源未登录只开放3页，遵守该范围，不访问第4页或绕过登录。未收录、同名或身份无法核实时报告实际范围，不自动切换收费接口。读取 `archive.json` 和文件确认数量，不把公开收录数当作完整历史证明。
+来源匿名访问通常在数页后截断，程序不设页数上限、一直翻到空页，并在空页仍声称更多时如实报告 `public_access_limit`；不绕过登录。未收录、同名或身份无法核实时报告实际范围，不自动切换收费接口。读取 `archive.json` 和文件确认数量，不把公开收录数当作完整历史证明。
 
 Best in Class 的10篇免费成功路径见 [免费发现实战](references/free-discovery.md)及[在线案例教程](https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/)：全部直接读取微信原文并按正文归类，索引仅用于发现链接。医药细分可加 `--rules references/medicine-rules.json`。公开索引发现是本技能新增扩展，不属于原小程序 v13 的逆向规则。
 
@@ -73,6 +73,24 @@ sh "<本 skill 目录>/scripts/run.sh" --batch --links "<已核验链接.json>" 
 失败或中断后保留原目录与游标。正常验证恢复后，人工核对 `remaining-links.json`，使用**新的输出目录**续接；它包含首次失败项，不会自行重新请求。已有真实种子 Markdown 可在 JSON 中提供 `reuse_markdown`，同时必须有原 `.status.json`、匹配的源 URL 和成功解析记录；核验通过就复制复用，不为凑样本重复访问。完整字段、边界与研究报告方法见 [批次整理与研究](references/batch-report.md)。
 
 `--archive` 自动调用正文规则分类器，生成分类目录、`catalog.json` 与 `INDEX.md`，包含命中关键词和证据片段。已有批次可运行 `sh scripts/run.sh --classify --batch-dir "<原批次目录>" --output-dir "<新分类目录>"`，可用 `--rules` 指定分类JSON，结构见名称归档流程。智能体可以在此基础上做语义复核、细化标签和研究；逐篇读正文并给依据。用户私有报告及全文不自动上传 Git、发布网站或分享。离线测试通过不代表真实全历史已验收。
+
+## 粘贴链接一键转：`--import`
+
+公开索引没收录该公众号，或用户手上就是一批从手机「分享 → 复制链接」攒下来的文本时，不要让用户先手写 JSON：把原始文本交给 `--import`。它清洗链接、去重、出清单、下载、归类一次做完。
+
+```sh
+pbpaste | sh scripts/run.sh --import --from - --output-dir ./imported --account "<公众号名称>"
+sh scripts/run.sh --import --from ./粘贴.txt --list-only --output-dir ./review
+```
+
+- 只接受 `https://mp.weixin.qq.com/s…` 文章地址；`http://` 自动升级为 `https:`。
+- 只保留 `__biz`/`mid`/`idx`/`sn`/`chksm`，`key`/`pass_ticket`/`uin`/`scene`/`from`/`sharer_sharetime` 等会话与跟踪参数一律丢弃，避免凭证随归档落盘；丢弃了哪些参数记在 `import.json.stripped_params`。
+- 按 `mid+idx` 去重；短链无参数时退化为整 URL 比较。重复项记在 `duplicates`，标明首现行号。
+- 标题取「链接同行文字」，否则回退到**上一行**纯文字（微信分享面板就是「标题换行链接」）。纯日期行、纯序号行不当标题；空行作废候选标题，避免串到下一篇；一行多个链接不猜归属。
+- 先出 `links.json`／`import.json`／`import-report.md`；`--list-only` 就停在这里供人工过目，否则串行下载到 `articles/` 并归类到 `classified/`。
+- 可与 `--days`/`--since`/`--until`/`--limit`/`--account`/`--interval`/`--rules` 组合，参数含义与 `--batch` 一致。输出目录必须是新目录，不覆盖已有结果。
+
+详见 [粘贴链接导入](references/import.md)。
 
 ## 成功案例：批次归档 → 成册交付 → 线上案例
 

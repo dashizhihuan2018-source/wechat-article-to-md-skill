@@ -1,8 +1,8 @@
 # 微信文章整理skill
 
-[宣传网站与教程（GitHub Pages）](https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/) · [下载 v0.6.1](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.6.1)
+[宣传网站与教程（GitHub Pages）](https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/) · [下载 v0.6.2](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.6.2)
 
-宣传站的技能包、PDF报告、字体、图片和环境教程均为站内资源；下载使用原 v0.6.1 发布包并保留 SHA256 校验，GitHub 源码与 Release 作为独立入口。
+宣传站的技能包、PDF报告、字体、图片和环境教程均为站内资源；下载使用原 v0.6.2 发布包并保留 SHA256 校验，GitHub 源码与 Release 作为独立入口。
 
 根据「Obsidian同步助手」实际 v13 小程序代码包逆向，复刻其中微信文章读取、正文清洗与 Markdown 转换规则。核心是 JSDOM + 微信正文选择器 + Turndown 7.2.0；[证据与差异](references/reverse-evidence.md)记录了实际函数与限制。
 
@@ -14,7 +14,7 @@
 sh scripts/run.sh --archive --name '公众号名称' --output-dir './account-archive'
 ```
 
-默认使用免费的 ByDrug 公开作者索引发现原微信链接，再直接读取微信正文；无需 API Key、微信登录或付费服务，适用于该索引已收录的公众号。首次试10篇可加 `--trial 10`；技能本身不设10篇上限，但索引站未登录只开放3页，程序遵守该范围。网站显示的收录总数不代表全部可下载，更不等于公众号完整历史。[名称归档、分类与续接教程](references/archive.md)说明来源核验、状态与自定义规则。
+默认使用免费的 ByDrug 公开作者索引发现原微信链接，再直接读取微信正文；无需 API Key、微信登录或付费服务，适用于该索引已收录的公众号。首次试10篇可加 `--trial 10`；技能既不设篇数上限也不设页数上限，发现阶段一直翻到上游返回空页，若上游提前给空页则如实报告截断。网站显示的收录总数不代表全部可下载，更不等于公众号完整历史。[名称归档、分类与续接教程](references/archive.md)说明来源核验、状态与自定义规则。
 
 ### 输入名称 + 下载要求即可批量归档
 
@@ -35,9 +35,22 @@ sh scripts/run.sh --archive --name '公众号名称' --since 2026-10-31 --until 
 
 执行顺序是「发现 → 按核实发布日期过滤 → 下载 → 归类」，窗口外的原文一次都不下载。区间非法（`--days` 与 `--since/--until` 同给、`--since` 晚于 `--until`、`2026-02-30` 这类假日期）在建目录之前就退出。判定依据写入 `archive.json` 的 `date_window` 与 `date_filter`，一条都不命中时报 `no_articles_in_window`，不伪造产物。详见[名称归档教程](references/archive.md)。
 
+### 手机复制的链接：粘贴即转
+
+公开索引不收录该公众号，或手上就是一堆从微信「分享 → 复制链接」攒下来的文本时，不用手写 JSON，直接粘：
+
+```sh
+# 从剪贴板读（macOS）；也可 --from ./粘贴.txt
+pbpaste | sh scripts/run.sh --import --from - --output-dir './imported' --account '公众号名称'
+# 先只出清单，人工过目再下载
+sh scripts/run.sh --import --from ./粘贴.txt --list-only --output-dir './review'
+```
+
+清洗规则是「只留文章身份，丢掉会话凭证」：`__biz`/`mid`/`idx`/`sn`/`chksm` 保留，`key`/`pass_ticket`/`uin`/`scene`/`from`/`sharer_sharetime` 等一律丢弃并记入 `import.json.stripped_params`；`http://` 自动升级为 `https://`；按 `mid+idx` 去重。标题取链接同行文字，否则回退到**上一行**纯文字（微信分享面板正是「标题换行链接」），纯日期行、纯序号行不当标题，空行作废候选，一行多链接不猜归属。先产出 `links.json`／`import.json`／`import-report.md`，再串行下载归类，可与 `--days`/`--since`/`--until`/`--limit`/`--interval`/`--rules` 组合。详见[粘贴链接导入](references/import.md)。
+
 ### 脚本路由
 
-`scripts/run.sh` 与 `run.ps1` 对外只暴露 5 个入口；其余 `.cjs` 是被这些入口 `require` 的内部库，没有独立 CLI，也不需要路由：
+`scripts/run.sh` 与 `run.ps1` 对外只暴露 6 个入口；其余 `.cjs` 是被这些入口 `require` 的内部库，没有独立 CLI，也不需要路由：
 
 | 入口 | 文件 | 说明 |
 |---|---|---|
@@ -45,10 +58,11 @@ sh scripts/run.sh --archive --name '公众号名称' --since 2026-10-31 --until 
 | `--free-discover` | `free-discover.cjs` | 免费公开索引发现链接 |
 | `--discover` | `discover.cjs` | DataXAPI 历史枚举（显式付费） |
 | `--batch` | `batch.cjs` | 已核验清单串行整理 |
+| `--import` | `import-links.cjs` | 粘贴的杂乱链接文本 → 清洗 → 下载 → 归类 |
 | `--classify` | `classify.cjs` | 正文归类 |
 | `--url` / 默认 | `wechat-to-md.cjs` | 单篇转换 |
 | 内部库 | `accounts.cjs`、`date-window.cjs`、`build.cjs`、`package_skill.py` | 账号搜索、日期窗口、打包；无独立命令 |
-| 测试 | `tests/*.test.cjs` | `npm test`，当前 51 项 |
+| 测试 | `tests/*.test.cjs` | `npm test`，当前 60 项 |
 
 2026-11-11，已通过免费路径完成 **Best in Class 10/10篇真实微信原文下载及10/10篇正文归类**，没有复用旧种子文件。主分类为临床研究6篇、商业合作与渠道2篇、AI与药物发现1篇、企业财报与专利1篇。这是公开索引可见顺序的前10条，不是“最新10篇”或“全部历史”的保证：
 
@@ -76,7 +90,7 @@ Windows PowerShell：
 
 ## 作为 Skill 安装
 
-从 [v0.6.1 发布页](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.6.1) 下载 ZIP，解压得到 `wechat-article-to-md-skill` 文件夹。`.skill` 附件也是同内容 ZIP，供支持该格式的技能管理器导入。
+从 [v0.6.2 发布页](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.6.2) 下载 ZIP，解压得到 `wechat-article-to-md-skill` 文件夹。`.skill` 附件也是同内容 ZIP，供支持该格式的技能管理器导入。
 
 Codex 用户将文件夹复制到以下目录，确认 `SKILL.md` 直接位于该文件夹内，再重新打开会话：
 
@@ -156,4 +170,4 @@ npm test
 ## 成功经验与跨 Skill 复用
 
 - [成功案例：远方青木近十日头条 → 68 页成册 → 线上第二案例](references/success-case-yuanfangqingmu.md)：八步链路、12 个失败点与修复、8 项验收门槛、6 条合规边界，以及与「标准蓝画册排版」Skill 的协作契约。适用于免费公开索引未收录目标公众号的场景。
-- 该文档为**仓库级补充资料**，随 `main` 维护，**不在 v0.6.1 发布 ZIP 内**；安装后如需查阅请以仓库 `references/` 为准。该文档随 `main` 维护、不随发布包分发；v0.6.1 的运行时变更（`--days`／`--since`／`--until`）见仓库提交历史。
+- 该文档为**仓库级补充资料**，随 `main` 维护，**不在 v0.6.2 发布 ZIP 内**；安装后如需查阅请以仓库 `references/` 为准。该文档随 `main` 维护、不随发布包分发；v0.6.2 的运行时变更（`--days`／`--since`／`--until`、`--import` 粘贴导入、发现阶段不设页数上限）见仓库提交历史。

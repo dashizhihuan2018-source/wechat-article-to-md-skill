@@ -1,8 +1,9 @@
 {
-  "release_id": "20261111-v061-r1",
+  "release_id": "20261111-v062-r1",
   "site": "https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/",
-  "skill_version": "0.6.1",
+  "skill_version": "0.6.2",
   "report_version": "1.2",
+  "case_count": 2,
   "files": [
     {
       "path": "assets/fonts/OFL.txt",
@@ -75,14 +76,29 @@
       "sha256": "252d83a8564f457e1a0e7f0bd0155d6a01443c90ff1a3c86b6754002640c267b"
     },
     {
+      "path": "downloads/v0.6.2/SHA256SUMS.txt",
+      "bytes": 210,
+      "sha256": "2a024dafb2f9e220f72f983c94b1fcaf0e42a2f2ee213743f53f903533736a80"
+    },
+    {
+      "path": "downloads/v0.6.2/wechat-article-to-md-skill-v0.6.2.skill",
+      "bytes": 2012959,
+      "sha256": "45fe1a99f37d6e1de5f742f62ae403b8ead4b5754a4fd4b53e261fde9fad679d"
+    },
+    {
+      "path": "downloads/v0.6.2/wechat-article-to-md-skill-v0.6.2.zip",
+      "bytes": 2012959,
+      "sha256": "45fe1a99f37d6e1de5f742f62ae403b8ead4b5754a4fd4b53e261fde9fad679d"
+    },
+    {
       "path": "environment.html",
       "bytes": 9469,
-      "sha256": "c97c0c21b4826ceb753130a32fc797e2d4737c81e3474f010c948a7702f16167"
+      "sha256": "5d0783f3d8942e730235a0491f7d59c02591e5c29a7124336c7ff0eb075d3469"
     },
     {
       "path": "index.html",
-      "bytes": 16139,
-      "sha256": "992096447cbe42b0ab1c7cfb6aef1f3927f2c5e39628b93a60c0f115426dc4d5"
+      "bytes": 16881,
+      "sha256": "2bb8e99a106fb15fc8758cd34e7a1f5616fb5bffbba52da18c83ffe12745fc7a"
     },
     {
       "path": "reports/best-in-class-research-v1.2.pdf",
@@ -114,6 +130,5 @@
       "bytes": 4714,
       "sha256": "7e49a918185d6a6cc26e60e65110fc3f296a094a0f8c5ee2b4d91939696cdeb0"
     }
-  ],
-  "case_count": 2
+  ]
 }

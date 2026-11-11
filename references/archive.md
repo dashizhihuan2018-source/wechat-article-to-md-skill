@@ -12,7 +12,7 @@ Windows 将启动命令替换为 `& .\scripts\run.ps1`。启动器自动准备 N
 sh scripts/run.sh --archive --name 'Best in Class' --trial 10 --rules references/medicine-rules.json --output-dir ./best-in-class-trial
 ```
 
-`--trial N` 只限制本次试跑。技能不设10篇上限；ByDrug 未登录只开放3页，默认处理全部可见内容时也遵守该限制，不访问第4页。达到上游范围后保存现有结果并报告 `partial_history_archived`。页面显示收录62条，不代表可以免费取得全部62条，更不代表公众号所有历史。
+`--trial N` 只限制本次试跑。技能不设篇数上限，也不设页数上限：发现阶段一直翻到上游返回空页为止。ByDrug 匿名访问在第3页之后通常就给空页，程序照实记录——空页时仍声称有更多收录，判为上游截断，状态 `public_access_limit`、归档 `partial_history_archived`；空页且已取满声称的收录数，才是 `provider_exhausted`。这是上游访问条件，不是技能的产品上限。页面显示收录62条，不代表可以免费取得全部62条，更不代表公众号所有历史。
 
 ## 下载要求：篇数、天数、起止日期
 
@@ -34,14 +34,14 @@ sh scripts/run.sh --archive --name '公众号名称' --since 2026-10-31 --until 
 执行顺序是「发现 → 窗口过滤 → 下载 → 归类」，因此在窗口外的原文一次都不会被请求，也不会产生下载等待：
 
 - `archive.json` 的 `date_window` 记录 `requested`／`since`／`until`／`days`／`computed_at`／`label`，`--days` 依赖运行日期，故保留 `computed_at` 以备复核。
-- `date_filter.counts` 记录 `input`／`kept`／`before`／`after`／`undated`／`selected`；`date_filter.undated_urls` 列出最多 20 条日期缺失的链接。
+- `date_filter.counts` 记录 `input`／`kept`／`before`／`after`／`undated`／`selected`；`date_filter.undated_urls` 全量列出日期缺失的链接，不截断。
 - 通过窗口的链接另存为 `in-window-links.json`，`discovery/discovered-links.json` 原样保留作证据。
 - 一条都不命中时状态为 `no_articles_in_window`，不生成 `in-window-links.json`，也不创建 `articles/`。
-- 同时给出 `--trial N` 时，发现阶段按 `3N`（上限 200）过采样，`discovery_limit_reason` 说明原因，否则窗口会把样本吃光。
+- 同时给出 `--trial N` 时，发现阶段按 `3N` 过采样，`discovery_limit_reason` 说明原因，否则窗口会把样本吃光；过采样量随 `--trial` 线性增长，不另设绝对上限。
 
 日期只取原文详情页核实的值，按 `YYYY-MM-DD` 比较，不做时区换算。归档使用 `undated: exclude`：日期无法核实的链接不计入窗口，只列入 `undated_urls` 交人工复核，绝不用文件名或 `mid` 规律猜补。
 
-窗口不改变来源覆盖范围。ByDrug 未登录仍只开放 3 页；要覆盖更长时间跨度需 `--provider dataxapi`（显式选择、需要 Key），或由用户在正常授权下提供已核验清单，再用 `--batch` 加同样的日期参数。
+窗口不改变来源覆盖范围。发现阶段能翻多远由上游决定（匿名访问通常止于第3页后），要覆盖更长时间跨度需 `--provider dataxapi`（显式选择、需要 Key），或由用户在正常授权下提供已核验清单（`--batch`/`--import`）再加同样的日期参数。
 
 ## 来源与身份
 
@@ -68,7 +68,7 @@ sh scripts/run.sh --classify --batch-dir ./articles --rules references/medicine-
 - `stopped`：网络、验证、来源身份、正文或分类校验失败。
 - `no_articles_returned`：来源没有返回文章，不能解释为公众号从未发布内容。
 
-原始发现位于 `discovery/discovery.json`，达到公开3页限制时状态为 `public_access_limit`。链接表位于 `discovery/discovered-links.json`；编号原文位于 `articles/`；分类副本、`catalog.json` 与 `INDEX.md` 位于 `classified/`。`complete_history_verified:false` 保留覆盖边界。
+原始发现位于 `discovery/discovery.json`，上游截断时状态为 `public_access_limit`；`discovery.json` 的 `index_pages`／`reported_total` 说明翻了几页、上游声称多少条。链接表位于 `discovery/discovered-links.json`；编号原文位于 `articles/`；分类副本、`catalog.json` 与 `INDEX.md` 位于 `classified/`。`complete_history_verified:false` 保留覆盖边界。
 
 停止后核对 `articles/remaining-links.json`，用 `--batch` 在新目录续接，再调用 `--classify`；该表包含失败、待处理及试跑未选中的链接。来源访问受限时不继续探测受限页面；索引未列出的文章需要其他可核验公开来源或用户提供的真实链接。
 

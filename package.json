@@ -1,6 +1,6 @@
 {
   "name": "wechat-article-to-md-skill",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "private": true,
   "description": "微信文章整理skill — local Markdown and serial verified batches with no fixed article-count limit",
   "license": "MIT",

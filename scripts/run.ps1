@@ -4,7 +4,7 @@ $ErrorActionPreference = 'Stop'
 $cliArguments = @($args)
 $entry = 'wechat-to-md.cjs'
 if ($cliArguments.Count -gt 0) {
-    $entries = @{ '--batch'='batch.cjs'; '--discover'='discover.cjs'; '--free-discover'='free-discover.cjs'; '--archive'='archive.cjs'; '--classify'='classify.cjs' }
+    $entries = @{ '--batch'='batch.cjs'; '--discover'='discover.cjs'; '--free-discover'='free-discover.cjs'; '--archive'='archive.cjs'; '--classify'='classify.cjs'; '--import'='import-links.cjs' }
     if ($entries.ContainsKey($cliArguments[0])) {
         $entry = $entries[$cliArguments[0]]
         $cliArguments = @($cliArguments | Select-Object -Skip 1)

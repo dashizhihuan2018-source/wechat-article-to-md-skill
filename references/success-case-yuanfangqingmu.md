@@ -91,7 +91,7 @@ python <标准蓝画册 Skill>/references/build_article_digest.py \
 ### 2.8 发布为线上案例
 
 - 新增 `reports/<案例>.pdf`、`assets/<封面>.webp`、`reports/manifest-<案例>.json`、`case-data-<案例>.json`。
-- 在 `docs/site/index.html` 增加案例卡片与导航；`docs/site/site-manifest.json` **全量重算**所有文件的 `bytes` + `sha256`（本例 19 个文件）。
+- 在 `docs/site/index.html` 增加案例卡片与导航；`docs/site/site-manifest.json` **全量重算**所有文件的 `bytes` + `sha256`（含新增下载目录，勿漏）。
 - `git push` 到 `main` 触发 `.github/workflows/pages.yml`（监听 `docs/site/**`）；`build_type: workflow`、源 `main /`、发布目录 `docs/site`。
 - 部署后用 `curl` 复核新资源 200、旧资源 404、首页关键字命中、线上 `site-manifest.json` 的 `release_id` 一致。
 
