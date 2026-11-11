@@ -1,0 +1,83 @@
+{
+  "release_id": "20261111-pages-downloads-r1",
+  "site": "https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/",
+  "skill_version": "0.6.0",
+  "report_version": "1.2",
+  "files": [
+    {
+      "path": "assets/fonts/OFL.txt",
+      "bytes": 2364,
+      "sha256": "f8b9fa48806865fad08818019bde9d9d67698f3b40a34e24665dc7f83b852870"
+    },
+    {
+      "path": "assets/fonts/README.md",
+      "bytes": 2085,
+      "sha256": "cb08e13c9944293ccb11c16641dc3e89b5c752c19b906704e030781f2bc20d73"
+    },
+    {
+      "path": "assets/fonts/build_subset.py",
+      "bytes": 2941,
+      "sha256": "949fb1b72715ce7aaa9d38ba75b9dbd91a1e02530ea51edf9b75eb2d4673530a"
+    },
+    {
+      "path": "assets/fonts/wechat-archive-serif-bold.woff2",
+      "bytes": 313536,
+      "sha256": "ca401057855f2103a3931644382142bb720963c6944146954ced8276f44319d3"
+    },
+    {
+      "path": "assets/research-cover-v1.2.webp",
+      "bytes": 108596,
+      "sha256": "3fa6db804828f2824a3b0433e8e423c40e2b071a2acae1ade52b9a94c50f304d"
+    },
+    {
+      "path": "case-data.json",
+      "bytes": 6351,
+      "sha256": "70ab2a2a637c88937f8057168719d18a3ab923410f00f35a1c9fbfc8bf97abdd"
+    },
+    {
+      "path": "downloads/v0.6.0/SHA256SUMS.txt",
+      "bytes": 210,
+      "sha256": "140d377a7bfae6ed506a5da2b2e2468e9dab678297d8a737894df3bdc6e668d6"
+    },
+    {
+      "path": "downloads/v0.6.0/wechat-article-to-md-skill-v0.6.0.skill",
+      "bytes": 1992136,
+      "sha256": "bde6e10dc00a160cf6f1d5659783199c98aa049d0614a827c9d29e9ad6acc147"
+    },
+    {
+      "path": "downloads/v0.6.0/wechat-article-to-md-skill-v0.6.0.zip",
+      "bytes": 1992136,
+      "sha256": "bde6e10dc00a160cf6f1d5659783199c98aa049d0614a827c9d29e9ad6acc147"
+    },
+    {
+      "path": "environment.html",
+      "bytes": 9469,
+      "sha256": "d243c6bb054d3e05849f5e5ef32c4e93fe2f5574e54994a97d03e8f2dce12271"
+    },
+    {
+      "path": "index.html",
+      "bytes": 13099,
+      "sha256": "037d421d7fcba34d082a822876ce6357ae745bcb779b9ab350d91feabfcf82f0"
+    },
+    {
+      "path": "reports/best-in-class-research-v1.2.pdf",
+      "bytes": 759749,
+      "sha256": "74931af08e79abd8df6f82d00bab2791273126d2cf910cefc69f3123ef84257d"
+    },
+    {
+      "path": "reports/manifest.json",
+      "bytes": 524,
+      "sha256": "e69cdb7e67486a551af28f3aac7d681053229a1ae00095adc115fd652a9cf7db"
+    },
+    {
+      "path": "styles.css",
+      "bytes": 15498,
+      "sha256": "d53bf936952408e43b0c3cd295850038fa82474b2e71aface8346cf03c6a076c"
+    },
+    {
+      "path": "tutorial.js",
+      "bytes": 4714,
+      "sha256": "7e49a918185d6a6cc26e60e65110fc3f296a094a0f8c5ee2b4d91939696cdeb0"
+    }
+  ]
+}

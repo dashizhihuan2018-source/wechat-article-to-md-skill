@@ -15,7 +15,7 @@
 
 ## 子集与复现
 
-子集脚本提取 `index.html`、`styles.css`、`tutorial.js`、`case-data.json` 的全部字符，加上可打印 ASCII。当前覆盖 584 个 Unicode 码位，包含 1,328 个字形（包括布局替换字形），无缺失码位，已包含主标题“微信公众号文章，可以批量下载啦”的全部文字。新增网站文字后需重新生成子集。
+子集脚本提取 `index.html`、`environment.html`、`styles.css`、`tutorial.js`、`case-data.json` 的全部字符，加上可打印 ASCII。当前覆盖 688 个 Unicode 码位，包含 1,528 个字形（包括布局替换字形），无缺失码位，已包含主标题“微信公众号文章，可以批量下载啦”及环境教程的全部文字。新增网站文字后需重新生成子集。
 
 下载上面的官方 OTF 后，在项目根目录运行（Python 3 + fonttools + brotli）：
 
@@ -24,4 +24,4 @@ python3 -m pip install 'fonttools[woff]' brotli
 python3 docs/site/assets/fonts/build_subset.py /path/to/SourceHanSerifSC-Bold.otf
 ```
 
-当前网页资源：262,288 字节（256.1 KiB），SHA256：`851baeb70ffc4aeab2cdaab437f70fd15e2a2027abe6189606e9e22fbf7f7d3e`。完整原字库不随网站分发。
+当前网页资源：313,536 字节（306.2 KiB），SHA256：`ca401057855f2103a3931644382142bb720963c6944146954ced8276f44319d3`。完整原字库不随网站分发。

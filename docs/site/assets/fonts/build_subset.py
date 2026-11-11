@@ -23,7 +23,7 @@ def main():
     if hashlib.sha256(source.read_bytes()).hexdigest() != EXPECTED_SHA256:
         raise SystemExit("The original OTF does not match the pinned Adobe source.")
     text = "".join(chr(i) for i in range(32, 127))
-    for name in ("index.html", "styles.css", "tutorial.js", "case-data.json"):
+    for name in ("index.html", "environment.html", "styles.css", "tutorial.js", "case-data.json"):
         text += html.unescape((ROOT / name).read_text(encoding="utf-8"))
     codepoints = {ord(char) for char in text if ord(char) >= 32}
     font = TTFont(source, recalcTimestamp=False)
