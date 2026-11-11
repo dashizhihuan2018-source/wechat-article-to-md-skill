@@ -16,6 +16,40 @@ sh scripts/run.sh --archive --name '公众号名称' --output-dir './account-arc
 
 默认使用免费的 ByDrug 公开作者索引发现原微信链接，再直接读取微信正文；无需 API Key、微信登录或付费服务，适用于该索引已收录的公众号。首次试10篇可加 `--trial 10`；技能本身不设10篇上限，但索引站未登录只开放3页，程序遵守该范围。网站显示的收录总数不代表全部可下载，更不等于公众号完整历史。[名称归档、分类与续接教程](references/archive.md)说明来源核验、状态与自定义规则。
 
+### 输入名称 + 下载要求即可批量归档
+
+用户只需要说清两件事：公众号名称，和要什么范围。三种要求可组合：
+
+| 要求 | 参数 | 语义 |
+|---|---|---|
+| 篇数 | `--trial N` | 本次样本上限，不是产品上限 |
+| 天数 | `--days N` | 含今天在内的 N 个自然日 |
+| 起止日期 | `--since YYYY-MM-DD [--until YYYY-MM-DD]` | 两端都含，`--until` 缺省为今天 |
+
+```sh
+# 近十天全部
+sh scripts/run.sh --archive --name '公众号名称' --days 10 --output-dir './last-10-days'
+# 指定区间里取 6 篇
+sh scripts/run.sh --archive --name '公众号名称' --since 2026-10-31 --until 2026-11-09 --trial 6 --output-dir './window-sample'
+```
+
+执行顺序是「发现 → 按核实发布日期过滤 → 下载 → 归类」，窗口外的原文一次都不下载。区间非法（`--days` 与 `--since/--until` 同给、`--since` 晚于 `--until`、`2026-02-30` 这类假日期）在建目录之前就退出。判定依据写入 `archive.json` 的 `date_window` 与 `date_filter`，一条都不命中时报 `no_articles_in_window`，不伪造产物。详见[名称归档教程](references/archive.md)。
+
+### 脚本路由
+
+`scripts/run.sh` 与 `run.ps1` 对外只暴露 5 个入口；其余 `.cjs` 是被这些入口 `require` 的内部库，没有独立 CLI，也不需要路由：
+
+| 入口 | 文件 | 说明 |
+|---|---|---|
+| `--archive` | `archive.cjs` | 名称 → 发现 → 过滤 → 下载 → 归类 |
+| `--free-discover` | `free-discover.cjs` | 免费公开索引发现链接 |
+| `--discover` | `discover.cjs` | DataXAPI 历史枚举（显式付费） |
+| `--batch` | `batch.cjs` | 已核验清单串行整理 |
+| `--classify` | `classify.cjs` | 正文归类 |
+| `--url` / 默认 | `wechat-to-md.cjs` | 单篇转换 |
+| 内部库 | `accounts.cjs`、`date-window.cjs`、`build.cjs`、`package_skill.py` | 账号搜索、日期窗口、打包；无独立命令 |
+| 测试 | `tests/*.test.cjs` | `npm test`，当前 51 项 |
+
 2026-11-11，已通过免费路径完成 **Best in Class 10/10篇真实微信原文下载及10/10篇正文归类**，没有复用旧种子文件。主分类为临床研究6篇、商业合作与渠道2篇、AI与药物发现1篇、企业财报与专利1篇。这是公开索引可见顺序的前10条，不是“最新10篇”或“全部历史”的保证：
 
 ```sh

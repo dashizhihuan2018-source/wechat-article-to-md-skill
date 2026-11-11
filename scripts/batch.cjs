@@ -6,6 +6,7 @@ const path=require('node:path');
 const crypto=require('node:crypto');
 const {performance}=require('node:perf_hooks');
 const {spawnSync}=require('node:child_process');
+const {parseDateWindow,applyDateWindow,dateOf}=require('./date-window.cjs');
 
 const MIN_INTERVAL_MS=60000;
 const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -52,17 +53,19 @@ function readArticle(filename) {
 }
 function summarize(items,inputCount) {
   const converted=items.filter(x=>x.status==='converted').length,reused=items.filter(x=>x.status==='reused').length;
-  return {input:inputCount,selected:items.length,unselected:inputCount-items.length,attempted:items.filter(x=>x.status!=='pending').length,converter_invocations:items.filter(x=>x.converter_invoked).length,converted,reused,completed:converted+reused,failed:items.filter(x=>!['pending','in_progress','converted','reused'].includes(x.status)).length,pending:items.filter(x=>x.status==='pending').length};
+  return {input:inputCount,selected:items.length,unselected:inputCount-items.length,attempted:items.filter(x=>x.status!=='pending').length,converter_invocations:items.filter(x=>x.converter_invoked).length,converted,reused,completed:converted+reused,failed:items.filter(x=>!['pending','in_progress','converted','reused'].includes(x.status)).length,pending:items.filter(x=>x.status==='pending').length,out_of_window:items.filter(x=>x.within_date_window===false).length,undated:items.filter(x=>x.within_date_window===null).length};
 }
 async function runBatch(options,runtime={}) {
   const limit=options.limit===undefined?null:Number(options.limit);
   const interval=options.intervalSeconds===undefined?60:Number(options.intervalSeconds);
+  const dateWindow=parseDateWindow(options);
   if(limit!==null&&(!Number.isSafeInteger(limit)||limit<1))throw Error('--limit must be a positive integer when provided');
   if(!Number.isFinite(interval)||interval<60||interval>86400)throw Error('--interval must be between 60 and 86400 seconds');
   if(!options.links||!options.outputDir)throw Error('--links and --output-dir are required');
   if(options.account!==undefined&&(typeof options.account!=='string'||!options.account.trim()))throw Error('--account must be a nonempty expected account name');
   const expectedAccount=options.account?.trim()??null;
-  const source=readLinks(options.links),selected=limit===null?source.links:source.links.slice(0,limit),out=path.resolve(options.outputDir);
+  // 日期已知且落在窗口外的链接不下载；日期未知的仍下载，转换后用正文日期逐篇标注 real-window 结果。
+  const source=readLinks(options.links),scoped=applyDateWindow(source.links,dateWindow,{undated:'attempt'}),pool=scoped.links,selected=limit===null?pool:pool.slice(0,limit),out=path.resolve(options.outputDir);
   const now=runtime.now??Date.now,sleep=runtime.sleep??delay;
   const elapsed=runtime.elapsed??runtime.now??(()=>performance.now());
   // Test injection is programmatic only. The public CLI cannot choose another converter or clock.
@@ -70,7 +73,7 @@ async function runBatch(options,runtime={}) {
   const iso=()=>new Date(now()).toISOString();
   fs.mkdirSync(path.dirname(out),{recursive:true});
   fs.mkdirSync(out); // Atomic refusal of existing folders, including symlinks.
-  const index={schema_version:1,status:'running',created_at:iso(),finished_at:null,expected_account:expectedAccount,selection:limit===null?'all':'limited',limit,interval_seconds:interval,ordering:source.ordering,next_index:0,stop_reason:null,counts:null,items:selected.map((x,i)=>({index:i,number:String(i+1).padStart(3,'0'),url:x.url,supplied_title:x.title??null,supplied_published_at:x.published_at??null,discovery:x.discovery??null,status:'pending',title:null,account:null,published_at:null,retrieved_at:null,source_of_date:{published_at:'unavailable',supplied_published_at:x.published_at?'links_file_unverified':'unavailable',retrieved_at:'unavailable'}})),resume:{file:'remaining-links.json',automatic_retry:false,note:'After normal access is restored, review remaining links and use a new output directory. Never automatically retry a stopped batch.'}};
+  const index={schema_version:1,status:'running',created_at:iso(),finished_at:null,expected_account:expectedAccount,selection:limit===null?(dateWindow?'date_window':'all'):'limited',limit,interval_seconds:interval,date_window:dateWindow?{requested:dateWindow.requested,since:dateWindow.since,until:dateWindow.until,days:dateWindow.days,computed_at:dateWindow.computed_at,label:dateWindow.label}:null,date_filter:scoped.filter,ordering:source.ordering,next_index:0,stop_reason:null,counts:null,items:selected.map((x,i)=>({index:i,number:String(i+1).padStart(3,'0'),url:x.url,supplied_title:x.title??null,supplied_published_at:x.published_at??null,discovery:x.discovery??null,status:'pending',title:null,account:null,published_at:null,retrieved_at:null,source_of_date:{published_at:'unavailable',supplied_published_at:x.published_at?'links_file_unverified':'unavailable',retrieved_at:'unavailable'}})),resume:{file:'remaining-links.json',automatic_retry:false,note:'After normal access is restored, review remaining links and use a new output directory. Never automatically retry a stopped batch.'}};
   let sequence=0,lastRequestCompletedAt=null;
   function atomic(name,value) {
     const temp=path.join(out,`.${name}.${process.pid}.${sequence++}.tmp`);
@@ -82,7 +85,7 @@ async function runBatch(options,runtime={}) {
     if(index.next_index<0)index.next_index=selected.length;
     atomic('batch-index.json',index);
     atomic('manifest.json',{schema_version:1,status:index.status,created_at:index.created_at,finished_at:index.finished_at,counts:index.counts,index:'batch-index.json',remaining:'remaining-links.json',images_offline:false});
-    atomic('remaining-links.json',{ordering:source.ordering,resumes_from_index:index.next_index,links:source.links.slice(index.next_index).map(entry=>entry.reuse_markdown?{...entry,reuse_markdown:path.resolve(source.directory,entry.reuse_markdown)}:entry)});
+    atomic('remaining-links.json',{ordering:source.ordering,resumes_from_index:index.next_index,links:pool.slice(index.next_index).map(entry=>entry.reuse_markdown?{...entry,reuse_markdown:path.resolve(source.directory,entry.reuse_markdown)}:entry)});
   }
   function stop(item,status,reason,message) {
     item.status=status;item.reason=reason;item.message=message;item.finished_at=iso();index.status='stopped';index.stop_reason=reason;
@@ -119,6 +122,7 @@ async function runBatch(options,runtime={}) {
       }
       item.markdown=item.number+'/article.md';item.title=article.fields.title??null;item.account=article.fields.account??null;item.published_at=article.fields.published_at??null;item.bytes=article.bytes;item.sha256=article.sha256;item.images_offline=false;
       item.source_of_date.published_at=item.published_at!==null?'article_frontmatter':'unavailable';
+      if(dateWindow){const day=dateOf(item.published_at);item.within_date_window=day===null?null:day>=dateWindow.since&&day<=dateWindow.until;item.date_window=day;}
       if(expectedAccount&&item.account!==expectedAccount){stop(item,'account_mismatch','account_mismatch','The extracted account is missing or differs from --account; existing files were retained');checkpoint();break;}
       item.status=input.reuse_markdown?'reused':'converted';item.finished_at=iso();checkpoint();
     } catch(error) {stop(item,'failed','batch_item_error',error.message);checkpoint();break;}
@@ -128,13 +132,13 @@ async function runBatch(options,runtime={}) {
 }
 async function main(argv) {
   if(argv.length===1&&argv[0]==='--help'){
-    console.log('node scripts/batch.cjs --links verified-links.json --output-dir NEW_DIRECTORY [--limit POSITIVE_INTEGER] [--account EXPECTED_ACCOUNT] [--interval SECONDS>=60]\nAll verified links are processed by default. --limit selects a shorter trial run. Stops at the first blocked, failed or account-mismatched item.');return;
+    console.log('node scripts/batch.cjs --links verified-links.json --output-dir NEW_DIRECTORY [--limit POSITIVE_INTEGER] [--days N | --since YYYY-MM-DD [--until YYYY-MM-DD]] [--account EXPECTED_ACCOUNT] [--interval SECONDS>=60]\nAll verified links are processed by default. --limit selects a shorter trial run; --days/--since/--until keep only links whose known publication date falls inside the window (links without a date are still attempted and annotated afterwards). Stops at the first blocked, failed or account-mismatched item.');return;
   }
-  const map={'--links':'links','--output-dir':'outputDir','--limit':'limit','--account':'account','--interval':'intervalSeconds'},options={};
+  const map={'--links':'links','--output-dir':'outputDir','--limit':'limit','--account':'account','--interval':'intervalSeconds','--since':'since','--until':'until','--days':'days'},options={};
   for(let i=0;i<argv.length;i++){
     const name=map[argv[i]];if(!name||i+1>=argv.length||argv[i+1].startsWith('--')||options[name]!==undefined)throw Error('Unknown, duplicate or incomplete argument: '+argv[i]);options[name]=argv[++i];
   }
-  const index=await runBatch(options);console.log(JSON.stringify({ok:index.status==='completed',status:index.status,counts:index.counts,next_index:index.next_index,index:path.join(path.resolve(options.outputDir),'batch-index.json')}));
+  const index=await runBatch(options);console.log(JSON.stringify({ok:index.status==='completed',status:index.status,counts:index.counts,...(index.date_window?{date_window:index.date_window.label}:{}),next_index:index.next_index,index:path.join(path.resolve(options.outputDir),'batch-index.json')}));
   if(index.status!=='completed')process.exitCode=index.items.some(x=>x.status==='blocked'||x.status==='account_mismatch')?2:1;
 }
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(JSON.stringify({ok:false,status:'failed',message:error.message}));process.exitCode=1;});

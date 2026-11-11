@@ -2,6 +2,22 @@
 
 本工具接收已经核验的文章链接，按给定顺序串行整理。默认处理清单中的全部链接，不设固定篇数上限；`--limit` 只用于本次试跑少量样本。不提供“公众号名称→全历史”的后台枚举接口。中文产品名为“微信文章整理skill”，英文技能标识保持 `wechat-article-to-md-skill`。
 
+## 用日期要求裁剪清单
+
+清单里已有日期时，可直接加时间窗口，避免为窗口外的链接付出串行下载时间：
+
+```sh
+sh scripts/run.sh --batch --links ./verified-links.json --days 10 --account '公众号名称' --output-dir ./articles
+sh scripts/run.sh --batch --links ./verified-links.json --since 2026-10-31 --until 2026-11-09 --output-dir ./articles
+```
+
+`--days` 含今天共 N 个自然日，与 `--since/--until` 互斥；区间非法在建目录前退出。两种日期来源分开处理，这是本工具与归档流程唯一的策略差异：
+
+- **清单已带 `published_at`**：落在窗口外的链接直接不下载，计入 `date_filter.counts.before/after`。
+- **清单未带 `published_at`**：仍然下载，转换后从正文 frontmatter 取真实日期，逐篇写入 `within_date_window`（`true`／`false`／`null` 表示正文也没有日期），并汇总到 `counts.out_of_window` 与 `counts.undated`。**已下载的文件不因落在窗口外而删除**，由用户决定取舍。
+
+`batch-index.json` 的 `date_window` 与 `date_filter` 记录判定依据；`remaining-links.json` 以窗口过滤后的序列续跑，不复用原始索引，避免补跑时错位。
+
 ## 先取得授权与链接
 
 用户要求“前10篇”或某个数量时，先确认目标公众号、用户授权范围，以及“前”的顺序：例如正常可访问历史列表中按发布时间从新到旧。这属于本次范围，不是产品上限。通过用户正常可用的列表逐条确认链接与账号；记录列表来源、核验时间、可见排序、文章标题和显示日期。日期不可见就记录缺失，不猜补。

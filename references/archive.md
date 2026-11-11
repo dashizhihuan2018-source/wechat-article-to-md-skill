@@ -14,6 +14,35 @@ sh scripts/run.sh --archive --name 'Best in Class' --trial 10 --rules references
 
 `--trial N` 只限制本次试跑。技能不设10篇上限；ByDrug 未登录只开放3页，默认处理全部可见内容时也遵守该限制，不访问第4页。达到上游范围后保存现有结果并报告 `partial_history_archived`。页面显示收录62条，不代表可以免费取得全部62条，更不代表公众号所有历史。
 
+## 下载要求：篇数、天数、起止日期
+
+三种要求可以组合，覆盖用户口语里的「近十天」「上个月」「11月1日到11月9日，取6篇」：
+
+| 要求 | 参数 | 语义 |
+|---|---|---|
+| 篇数 | `--trial N` | 本次样本上限；不是产品上限 |
+| 天数 | `--days N` | 含今天在内的 N 个自然日 |
+| 起止日期 | `--since YYYY-MM-DD [--until YYYY-MM-DD]` | 两端都含；`--until` 缺省为今天 |
+
+```sh
+sh scripts/run.sh --archive --name '公众号名称' --days 10 --output-dir ./last-10-days
+sh scripts/run.sh --archive --name '公众号名称' --since 2026-10-31 --until 2026-11-09 --trial 6 --output-dir ./window-sample
+```
+
+`--days` 与 `--since/--until` 互斥；`--since` 晚于 `--until`、非真实日期（如 `2026-02-30`）、非 `YYYY-MM-DD` 写法都按预检失败处理，在建目录之前就退出，不留半成品。
+
+执行顺序是「发现 → 窗口过滤 → 下载 → 归类」，因此在窗口外的原文一次都不会被请求，也不会产生下载等待：
+
+- `archive.json` 的 `date_window` 记录 `requested`／`since`／`until`／`days`／`computed_at`／`label`，`--days` 依赖运行日期，故保留 `computed_at` 以备复核。
+- `date_filter.counts` 记录 `input`／`kept`／`before`／`after`／`undated`／`selected`；`date_filter.undated_urls` 列出最多 20 条日期缺失的链接。
+- 通过窗口的链接另存为 `in-window-links.json`，`discovery/discovered-links.json` 原样保留作证据。
+- 一条都不命中时状态为 `no_articles_in_window`，不生成 `in-window-links.json`，也不创建 `articles/`。
+- 同时给出 `--trial N` 时，发现阶段按 `3N`（上限 200）过采样，`discovery_limit_reason` 说明原因，否则窗口会把样本吃光。
+
+日期只取原文详情页核实的值，按 `YYYY-MM-DD` 比较，不做时区换算。归档使用 `undated: exclude`：日期无法核实的链接不计入窗口，只列入 `undated_urls` 交人工复核，绝不用文件名或 `mid` 规律猜补。
+
+窗口不改变来源覆盖范围。ByDrug 未登录仍只开放 3 页；要覆盖更长时间跨度需 `--provider dataxapi`（显式选择、需要 Key），或由用户在正常授权下提供已核验清单，再用 `--batch` 加同样的日期参数。
+
 ## 来源与身份
 
 详见 [免费发现实战](free-discovery.md)。来源链为公开作者索引 → 同名作者详情页 → “查看原文”微信链接 → 微信正文。核验作者名称、同一公众号 `__biz` 和实际正文提取的公众号名称，不把其他账号的相似标题计入目标。公开HTML只读解析，不执行脚本、不加载远程资源。

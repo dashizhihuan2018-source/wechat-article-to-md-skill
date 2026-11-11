@@ -47,6 +47,10 @@ Windows：
 
 公开教程展示方法、统计与验证边界。本案例的内容研究报告《创新药竞争的三条主线》提供[在线阅读与PDF下载](https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/#research)，附录为原文标题、链接与二维码。第三方文章全文、私人分类证据与其他未经确认公开的报告不上传公有 Git。
 
+## 时间边界
+
+`--since YYYY-MM-DD` 只作提前停止提示：作者索引为新到旧排列，当整页可见日期都早于该日期时不再翻页，避免为超出窗口的文章反复请求详情页。它不扩大可见范围，也不改变未登录 3 页限制；命中时 discovery 状态为 `window_reached`，并在 `stopped_before` 记录边界日期。归档流程中的日期过滤以此为基础，再在下载前做一次精确裁剪。
+
 ## 覆盖范围
 
 作者页本次显示共收录62条，但未登录只开放前3页。程序遵守范围，不取第4页、不绕过登录；达到范围后报告 `public_access_limit`，归档为 `partial_history_archived`。这是上游访问条件，不是技能的10篇产品上限。

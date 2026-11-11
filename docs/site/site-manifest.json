@@ -1,5 +1,5 @@
 {
-  "release_id": "20261111-case2-r2",
+  "release_id": "20261111-privacy-r1",
   "site": "https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/",
   "skill_version": "0.6.0",
   "report_version": "1.2",
@@ -26,13 +26,13 @@
     },
     {
       "path": "assets/research-cover-v1.2.webp",
-      "bytes": 103934,
-      "sha256": "4b58be902bec628df1f78ea9c1b850101b37161b8cd868b37d911ce19fdeb3cb"
+      "bytes": 126650,
+      "sha256": "9134f98c7af9e44ccae88d04daebdf6e2e6acba22897ad04db75b3b618608891"
     },
     {
       "path": "assets/yuanfangqingmu-cover-v1.2.webp",
-      "bytes": 50340,
-      "sha256": "ceec006262c97caf731e417af7203fdf7538cb424f2f3d3041c30e46c09d64d4"
+      "bytes": 63252,
+      "sha256": "13d7a6f81ac71ce3bc1189391f711884c19a9ba7f8be9a4efe75b9d579a28d6e"
     },
     {
       "path": "case-data-yuanfangqingmu.json",
@@ -67,12 +67,12 @@
     {
       "path": "index.html",
       "bytes": 15677,
-      "sha256": "196a1b21246aa2197fb226f2447a95231f242f1c9731fed840779f0a9ee6dc63"
+      "sha256": "6462dc9cb4c50ca56c13764d4ce1cca20003359a0801e4ba20bcff337a66b56e"
     },
     {
       "path": "reports/best-in-class-research-v1.2.pdf",
-      "bytes": 759749,
-      "sha256": "74931af08e79abd8df6f82d00bab2791273126d2cf910cefc69f3123ef84257d"
+      "bytes": 1080989,
+      "sha256": "d9c68ce7ed8670247427b62cf2e6d87792c7bc252bd53a57dacfd934d71a0faa"
     },
     {
       "path": "reports/manifest-yuanfangqingmu.json",
@@ -81,8 +81,8 @@
     },
     {
       "path": "reports/manifest.json",
-      "bytes": 524,
-      "sha256": "e69cdb7e67486a551af28f3aac7d681053229a1ae00095adc115fd652a9cf7db"
+      "bytes": 525,
+      "sha256": "6f10ac08a8532aaf784a7956e5a5f5687a3c50ef20c864055260b234b0ec409e"
     },
     {
       "path": "reports/yuanfangqingmu-headline-review-v1.4.pdf",

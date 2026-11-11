@@ -1,11 +1,22 @@
 ---
 name: wechat-article-to-md-skill
-description: 按公众号名称从免费公开索引发现原微信链接，下载为本机Markdown并按正文归类；也支持单篇直链和已核验清单。默认无需API Key或微信登录，适用于公开索引已收录的公众号；记录覆盖范围和未完成项。
+description: 输入公众号名称与下载要求（篇数、天数、起止日期），从免费公开索引发现原微信链接，下载为本机Markdown并按正文归类；也支持单篇直链和已核验清单。默认无需API Key或微信登录，适用于公开索引已收录的公众号；记录覆盖范围和未完成项。
 ---
 
 # 微信文章整理skill
 
-用户给公众号名称并要求历史下载与归类时，先读 [名称归档流程](references/archive.md)，执行 `sh scripts/run.sh --archive --name "<公众号名称>" --output-dir "<新目录>"`。默认使用免费 ByDrug 公开作者索引，无需 API Key 或微信登录；`--trial 10` 只限制本次试跑，不是产品篇数上限。来源未登录只开放3页，遵守该范围，不访问第4页或绕过登录。未收录、同名或身份无法核实时报告实际范围，不自动切换收费接口。读取 `archive.json` 和文件确认数量，不把公开收录数当作完整历史证明。
+用户给公众号名称并要求历史下载与归类时，先读 [名称归档流程](references/archive.md)，执行 `sh scripts/run.sh --archive --name "<公众号名称>" --output-dir "<新目录>"`。默认使用免费 ByDrug 公开作者索引，无需 API Key 或微信登录；`--trial 10` 只限制本次试跑，不是产品篇数上限。
+
+用户给出的下载要求按三种参数落地，可组合使用：**篇数** `--trial N`；**天数** `--days N`（含今天在内的 N 个自然日）；**起止日期** `--since YYYY-MM-DD [--until YYYY-MM-DD]`（两端都含，`--until` 缺省为今天）。`--days` 与 `--since/--until` 互斥。日期要求在建目录、发请求之前校验，非法或自相矛盾的区间按预检失败处理，不留半成品：
+
+```sh
+sh scripts/run.sh --archive --name '公众号名称' --days 10 --output-dir ./last-10-days
+sh scripts/run.sh --archive --name '公众号名称' --since 2026-10-31 --until 2026-11-09 --trial 6 --output-dir ./window-sample
+```
+
+窗口按原文详情页核实的发布日期过滤，落在窗口外的原文一次都不下载。过滤结果写入 `archive.json` 的 `date_filter.counts`（`input`／`kept`／`before`／`after`／`undated`／`selected`），命中为空的 `in-window-links.json` 不生成、状态为 `no_articles_in_window`。归档使用 `undated: exclude`：日期无法核实的链接不计入窗口，只列在 `date_filter.undated_urls` 供人工复核，绝不用文件名或 `mid` 规律猜补。
+
+来源未登录只开放3页，遵守该范围，不访问第4页或绕过登录。未收录、同名或身份无法核实时报告实际范围，不自动切换收费接口。读取 `archive.json` 和文件确认数量，不把公开收录数当作完整历史证明。
 
 Best in Class 的10篇免费成功路径见 [免费发现实战](references/free-discovery.md)及[在线案例教程](https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/)：全部直接读取微信原文并按正文归类，索引仅用于发现链接。医药细分可加 `--rules references/medicine-rules.json`。公开索引发现是本技能新增扩展，不属于原小程序 v13 的逆向规则。
 
