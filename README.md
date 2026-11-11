@@ -112,3 +112,8 @@ npm test
 ## 案例封面规范
 
 宣传站 `docs/site/assets/` 下的研究报告封面（含 AI 生成或 PIL 合成的位图）**不得出现 `v1.2` / `V2.5.0` / `版本：x.x` 等版本号**，左下角只保留作者、发布日期、批次或密级。版本号仅写入文件名、`reports/manifest*.json`、`site-manifest.json` 等机器可读元数据。该规则为「标准蓝画册排版」Skill `SKILL.md` §4 硬规则 18（v2.5.1）的站点侧落实；每次更换封面需重算 `site-manifest.json` 的 bytes/sha256 并目视复核左下角落款。
+
+## 成功经验与跨 Skill 复用
+
+- [成功案例：远方青木近十日头条 → 68 页成册 → 线上第二案例](references/success-case-yuanfangqingmu.md)：八步链路、12 个失败点与修复、8 项验收门槛、6 条合规边界，以及与「标准蓝画册排版」Skill 的协作契约。适用于免费公开索引未收录目标公众号的场景。
+- 该文档为**仓库级补充资料**，随 `main` 维护，**不在 v0.6.0 发布 ZIP 内**；安装后如需查阅请以仓库 `references/` 为准。运行时行为与 v0.6.0 一致，未改动 `scripts/`、`src/`、`tests/`。
