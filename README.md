@@ -108,3 +108,7 @@ npm test
 ```
 
 `src/` 是可读复刻实现，`scripts/wechat-to-md.cjs` 是生成的运行文件。构建关闭 JSDOM 的同步 XHR worker 定位；转换器不执行网页脚本，不加载远程资源，不使用 XHR。`THIRD_PARTY_NOTICES.md` 保留打包依赖的许可证。原小程序完整代码与真实文章不随开源包发布。
+
+## 案例封面规范
+
+宣传站 `docs/site/assets/` 下的研究报告封面（含 AI 生成或 PIL 合成的位图）**不得出现 `v1.2` / `V2.5.0` / `版本：x.x` 等版本号**，左下角只保留作者、发布日期、批次或密级。版本号仅写入文件名、`reports/manifest*.json`、`site-manifest.json` 等机器可读元数据。该规则为「标准蓝画册排版」Skill `SKILL.md` §4 硬规则 18（v2.5.1）的站点侧落实；每次更换封面需重算 `site-manifest.json` 的 bytes/sha256 并目视复核左下角落款。

@@ -1,19 +1,24 @@
 {
   "title": "远方青木近十日头条观察",
   "subtitle": "议题脉络、论证方法与核验边界",
-  "version": "1.2",
+  "version": "1.4",
   "date": "2026-11-11",
-  "file": "yuanfangqingmu-headline-review-v1.2.pdf",
+  "file": "yuanfangqingmu-headline-review-v1.4.pdf",
   "cover": "../assets/yuanfangqingmu-cover-v1.2.webp",
-  "pages": 18,
+  "pages": 68,
   "page_size": "A4",
-  "bytes": 655246,
-  "sha256": "dbe899b69e2de757d81c610b1bacf35c7af755060c4c4764d75d054ef899d47c",
+  "bytes": 5347416,
+  "sha256": "eecd75834ae1ac386b3da8d8ce6ac81d2352a442011ac15096bba7be72f7f541",
   "source_article_count": 8,
   "appendix": {
-    "type": "verification_notes",
-    "includes_full_text": false,
-    "note": "公开版仅含观察摘要与核验说明。含 6 篇原号全文与 34 张原文配图的 68 页完整版为本地内部参考，不在本站公开。"
+    "type": "original_fulltext_appendix",
+    "entries": 6,
+    "includes_full_text": true,
+    "paragraphs": 391,
+    "images": 34,
+    "image_note": "配图按原文出现位置以 inline_image 插入，等比不拉伸"
   },
-  "case_data": "../case-data-yuanfangqingmu.json"
+  "case_data": "../case-data-yuanfangqingmu.json",
+  "note": "68 页完整版：前四章观察摘要 + 第五章原文附录（6 篇原号全文、34 张原位配图）。原文与配图著作权归原作者及原发布账号所有，仅供个人非商业查阅与核验。",
+  "copyright": "原文及配图著作权归原作者与原发布账号所有；不得转载、摘编或用于商业用途。"
 }

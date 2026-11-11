@@ -8,9 +8,8 @@
     "2026-11-07"
   ],
   "boundary_note": "2026-10-31 为范围外边界项，不纳入发布日口径；11-03 / 11-07 为「未发现」，不能确认休更。",
-  "public_report": "reports/yuanfangqingmu-headline-review-v1.2.pdf",
-  "public_report_note": "18 页 A4 摘要版；不含公众号原文全文与原文配图。",
-  "local_reference_note": "68 页完整版含 6 篇原号全文与 34 张按原位置插入的配图，标注「内部参考 · 不得外发」，仅保存在本机，不在本站发布。",
+  "public_report": "reports/yuanfangqingmu-headline-review-v1.4.pdf",
+  "public_report_note": "68 页完整版：前四章观察摘要 + 第五章原文附录，含 6 篇原号全文与 34 张原文配图。",
   "articles": [
     {
       "id": 1,
@@ -22,7 +21,7 @@
       "original_url_note": "原号微信 URL 未核实，未凭 mid 规律推测拼接",
       "full_text_archived": false,
       "in_public_report": false,
-      "in_local_fulltext_appendix": false
+      "in_fulltext_appendix": false
     },
     {
       "id": 2,
@@ -33,8 +32,8 @@
       "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854103&idx=1&sn=c84d78fcf2a399c53dfea8e082f9de43&chksm=ff8559a97075e701cde9b0994d367e00e3f5c9ffc12d3a884797c63392c62668ac85ac07f872#rd",
       "original_url_note": null,
       "full_text_archived": true,
-      "in_public_report": false,
-      "in_local_fulltext_appendix": true
+      "in_public_report": true,
+      "in_fulltext_appendix": true
     },
     {
       "id": 3,
@@ -45,8 +44,8 @@
       "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854147&idx=1&sn=d0b1f25a2e010702ecb2d5934de56f16&chksm=ffb533edab797a9d8187970cfd3164332c51bd6d266d30e21e15e71ed6c84bee4c11750f0575#rd",
       "original_url_note": null,
       "full_text_archived": true,
-      "in_public_report": false,
-      "in_local_fulltext_appendix": true
+      "in_public_report": true,
+      "in_fulltext_appendix": true
     },
     {
       "id": 4,
@@ -57,8 +56,8 @@
       "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854172&idx=1&sn=bad002bc3fc0bd6eff47acf233110378&chksm=ffaeda9c7c733538731ef072c62ca2ec9ffb3cb7133ba532a94982d1c8bdfa12ec8aabae09d4#rd",
       "original_url_note": null,
       "full_text_archived": true,
-      "in_public_report": false,
-      "in_local_fulltext_appendix": true
+      "in_public_report": true,
+      "in_fulltext_appendix": true
     },
     {
       "id": 5,
@@ -70,7 +69,7 @@
       "original_url_note": "原号微信 URL 未核实，未凭 mid 规律推测拼接",
       "full_text_archived": false,
       "in_public_report": false,
-      "in_local_fulltext_appendix": false
+      "in_fulltext_appendix": false
     },
     {
       "id": 6,
@@ -81,8 +80,8 @@
       "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854242&idx=1&sn=17945eddd2b9809210ff7dded776b54f&chksm=ff6d70fee9430c8e75dae8767930653e223a8c6ed8e4ec397cf0ef94e9191ee6b217dd520fde#rd",
       "original_url_note": null,
       "full_text_archived": true,
-      "in_public_report": false,
-      "in_local_fulltext_appendix": true
+      "in_public_report": true,
+      "in_fulltext_appendix": true
     },
     {
       "id": 7,
@@ -93,8 +92,8 @@
       "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854269&idx=1&sn=ceafdbce41f5c9c1a2ca596fdeec8135&chksm=ff06213c845503cd5f193673ad95c81248a695056741e7aa82d20e330b0618e496677bbbf4e8#rd",
       "original_url_note": null,
       "full_text_archived": true,
-      "in_public_report": false,
-      "in_local_fulltext_appendix": true
+      "in_public_report": true,
+      "in_fulltext_appendix": true
     },
     {
       "id": 8,
@@ -105,8 +104,9 @@
       "original_wechat_url": "https://mp.weixin.qq.com/s?__biz=MzU5MzcyMzc2OQ==&mid=2247854301&idx=1&sn=3448e7a2dd185f2c859ee0b24feff299&chksm=fffb43f9dc894739cbd11b4b81df3344468abbceff77eb86fbc4e779d737997320f8859b9a1e#rd",
       "original_url_note": null,
       "full_text_archived": true,
-      "in_public_report": false,
-      "in_local_fulltext_appendix": true
+      "in_public_report": true,
+      "in_fulltext_appendix": true
     }
-  ]
+  ],
+  "copyright_note": "原文与配图著作权归原作者及原发布账号所有；本册仅供个人非商业查阅、核验与研究，不得转载、摘编或用于商业用途。"
 }

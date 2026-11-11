@@ -1,5 +1,5 @@
 {
-  "release_id": "20261111-case2-r1",
+  "release_id": "20261111-case2-r2",
   "site": "https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/",
   "skill_version": "0.6.0",
   "report_version": "1.2",
@@ -26,18 +26,18 @@
     },
     {
       "path": "assets/research-cover-v1.2.webp",
-      "bytes": 108596,
-      "sha256": "3fa6db804828f2824a3b0433e8e423c40e2b071a2acae1ade52b9a94c50f304d"
+      "bytes": 103934,
+      "sha256": "4b58be902bec628df1f78ea9c1b850101b37161b8cd868b37d911ce19fdeb3cb"
     },
     {
       "path": "assets/yuanfangqingmu-cover-v1.2.webp",
-      "bytes": 50570,
-      "sha256": "7b1ed0f8826a7af1744362598c0b07983ff3bc1c8233baf76e130c100d133724"
+      "bytes": 50340,
+      "sha256": "ceec006262c97caf731e417af7203fdf7538cb424f2f3d3041c30e46c09d64d4"
     },
     {
       "path": "case-data-yuanfangqingmu.json",
-      "bytes": 5257,
-      "sha256": "feab56779cfd428b3a866523646284ca6e93b70ef79c083d481b4776e055ae7a"
+      "bytes": 5243,
+      "sha256": "fdfc14e727808ec0caf321e978f56ef4a5280ba922b6ba5d2fcc6aef2e28129a"
     },
     {
       "path": "case-data.json",
@@ -66,8 +66,8 @@
     },
     {
       "path": "index.html",
-      "bytes": 15612,
-      "sha256": "b2dcca8327d72a4aff93979e0502850fdfb3cc16baad72e8c3ca791dc87fd6da"
+      "bytes": 15677,
+      "sha256": "196a1b21246aa2197fb226f2447a95231f242f1c9731fed840779f0a9ee6dc63"
     },
     {
       "path": "reports/best-in-class-research-v1.2.pdf",
@@ -76,8 +76,8 @@
     },
     {
       "path": "reports/manifest-yuanfangqingmu.json",
-      "bytes": 733,
-      "sha256": "acf7d8660b941ca5193eb3931c0b23cc53b6d906863479d4a05bc66206e8b899"
+      "bytes": 1075,
+      "sha256": "3bb609c9615df5847cbabcd3c9011cc6dc96a581a6ae55654439979f0353da72"
     },
     {
       "path": "reports/manifest.json",
@@ -85,9 +85,9 @@
       "sha256": "e69cdb7e67486a551af28f3aac7d681053229a1ae00095adc115fd652a9cf7db"
     },
     {
-      "path": "reports/yuanfangqingmu-headline-review-v1.2.pdf",
-      "bytes": 655246,
-      "sha256": "dbe899b69e2de757d81c610b1bacf35c7af755060c4c4764d75d054ef899d47c"
+      "path": "reports/yuanfangqingmu-headline-review-v1.4.pdf",
+      "bytes": 5347416,
+      "sha256": "eecd75834ae1ac386b3da8d8ce6ac81d2352a442011ac15096bba7be72f7f541"
     },
     {
       "path": "styles.css",
