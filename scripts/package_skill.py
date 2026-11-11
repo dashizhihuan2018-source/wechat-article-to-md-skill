@@ -10,10 +10,10 @@ parser.add_argument("output_directory", type=Path)
 args = parser.parse_args()
 root = Path(__file__).resolve().parents[1]
 version = json.loads((root / "package.json").read_text())["version"]
-files = ["SKILL.md", "README.md", "LICENSE", "THIRD_PARTY_NOTICES.md",
+files = ["SKILL.md", "README.md", "LICENSE", "NOTICE.md", "THIRD_PARTY_NOTICES.md",
          "agents/openai.yaml", "references/environment.md", "references/reverse-evidence.md",
          "references/batch-report.md", "references/discovery.md", "references/archive.md", "references/free-discovery.md", "references/medicine-rules.json",
-         "scripts/batch.cjs", "scripts/discover.cjs", "scripts/free-discover.cjs", "scripts/accounts.cjs", "scripts/archive.cjs", "scripts/classify.cjs",
+         "scripts/batch.cjs", "scripts/discover.cjs", "scripts/free-discover.cjs", "scripts/accounts.cjs", "scripts/archive.cjs", "scripts/classify.cjs", "scripts/date-window.cjs",
          "scripts/run.sh", "scripts/run.ps1", "scripts/wechat-to-md.cjs",
          "scripts/wechat-to-md.cjs.LEGAL.txt",
          "docs/assets/technical-path.png", "docs/assets/people-daily-case.png",

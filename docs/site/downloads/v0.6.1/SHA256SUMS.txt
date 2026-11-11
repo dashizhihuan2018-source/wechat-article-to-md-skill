@@ -1,0 +1,2 @@
+252d83a8564f457e1a0e7f0bd0155d6a01443c90ff1a3c86b6754002640c267b  wechat-article-to-md-skill-v0.6.1.zip
+252d83a8564f457e1a0e7f0bd0155d6a01443c90ff1a3c86b6754002640c267b  wechat-article-to-md-skill-v0.6.1.skill

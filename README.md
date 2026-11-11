@@ -1,8 +1,8 @@
 # 微信文章整理skill
 
-[宣传网站与教程（GitHub Pages）](https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/) · [下载 v0.6.0](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.6.0)
+[宣传网站与教程（GitHub Pages）](https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/) · [下载 v0.6.1](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.6.1)
 
-宣传站的技能包、PDF报告、字体、图片和环境教程均为站内资源；下载使用原 v0.6.0 发布包并保留 SHA256 校验，GitHub 源码与 Release 作为独立入口。
+宣传站的技能包、PDF报告、字体、图片和环境教程均为站内资源；下载使用原 v0.6.1 发布包并保留 SHA256 校验，GitHub 源码与 Release 作为独立入口。
 
 根据「Obsidian同步助手」实际 v13 小程序代码包逆向，复刻其中微信文章读取、正文清洗与 Markdown 转换规则。核心是 JSDOM + 微信正文选择器 + Turndown 7.2.0；[证据与差异](references/reverse-evidence.md)记录了实际函数与限制。
 
@@ -76,7 +76,7 @@ Windows PowerShell：
 
 ## 作为 Skill 安装
 
-从 [v0.6.0 发布页](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.6.0) 下载 ZIP，解压得到 `wechat-article-to-md-skill` 文件夹。`.skill` 附件也是同内容 ZIP，供支持该格式的技能管理器导入。
+从 [v0.6.1 发布页](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.6.1) 下载 ZIP，解压得到 `wechat-article-to-md-skill` 文件夹。`.skill` 附件也是同内容 ZIP，供支持该格式的技能管理器导入。
 
 Codex 用户将文件夹复制到以下目录，确认 `SKILL.md` 直接位于该文件夹内，再重新打开会话：
 
@@ -143,6 +143,12 @@ npm test
 
 `src/` 是可读复刻实现，`scripts/wechat-to-md.cjs` 是生成的运行文件。构建关闭 JSDOM 的同步 XHR worker 定位；转换器不执行网页脚本，不加载远程资源，不使用 XHR。`THIRD_PARTY_NOTICES.md` 保留打包依赖的许可证。原小程序完整代码与真实文章不随开源包发布。
 
+## 授权与使用范围
+
+代码以 **MIT License** 发布（[LICENSE](LICENSE)）。同时作者声明：本项目定位为个人学习、研究与资料归档工具，**请勿用于收费产品或商业交付**；商用请先通过仓库 Issue 取得书面许可，转载与二次分发请保留署名 **Nankong**。
+
+需要说明的是，MIT 在法理上不限制商业使用，上述要求是使用期望与署名条件，不构成对 MIT 的附加限制。若需要具备法律约束力的「禁止商用」，应改用 PolyForm Noncommercial 1.0.0 等专门许可证。案例中引用的公众号原文与配图，著作权归原作者与原发布账号所有，详见 [NOTICE.md](NOTICE.md)。
+
 ## 案例封面规范
 
 宣传站 `docs/site/assets/` 下的研究报告封面（含 AI 生成或 PIL 合成的位图）**不得出现 `v1.2` / `V2.5.0` / `版本：x.x` 等版本号**，左下角只保留作者、发布日期、批次或密级。版本号仅写入文件名、`reports/manifest*.json`、`site-manifest.json` 等机器可读元数据。该规则为「标准蓝画册排版」Skill `SKILL.md` §4 硬规则 18（v2.5.1）的站点侧落实；每次更换封面需重算 `site-manifest.json` 的 bytes/sha256 并目视复核左下角落款。
@@ -150,4 +156,4 @@ npm test
 ## 成功经验与跨 Skill 复用
 
 - [成功案例：远方青木近十日头条 → 68 页成册 → 线上第二案例](references/success-case-yuanfangqingmu.md)：八步链路、12 个失败点与修复、8 项验收门槛、6 条合规边界，以及与「标准蓝画册排版」Skill 的协作契约。适用于免费公开索引未收录目标公众号的场景。
-- 该文档为**仓库级补充资料**，随 `main` 维护，**不在 v0.6.0 发布 ZIP 内**；安装后如需查阅请以仓库 `references/` 为准。运行时行为与 v0.6.0 一致，未改动 `scripts/`、`src/`、`tests/`。
+- 该文档为**仓库级补充资料**，随 `main` 维护，**不在 v0.6.1 发布 ZIP 内**；安装后如需查阅请以仓库 `references/` 为准。该文档随 `main` 维护、不随发布包分发；v0.6.1 的运行时变更（`--days`／`--since`／`--until`）见仓库提交历史。
