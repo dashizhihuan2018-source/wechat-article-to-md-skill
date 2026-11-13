@@ -1,4 +1,4 @@
-# 微信文章整理skill
+# 微信公众号文章整理skill
 
 [宣传网站与教程（GitHub Pages）](https://dashizhihuan2018-source.github.io/wechat-article-to-md-skill/) · [下载 v0.6.2](https://github.com/dashizhihuan2018-source/wechat-article-to-md-skill/releases/tag/v0.6.2)
 
@@ -6,7 +6,7 @@
 
 根据「Obsidian同步助手」实际 v13 小程序代码包逆向，复刻其中微信文章读取、正文清洗与 Markdown 转换规则。核心是 JSDOM + 微信正文选择器 + Turndown 7.2.0；[证据与差异](references/reverse-evidence.md)记录了实际函数与限制。
 
-![微信文章整理skill 技术路径](docs/assets/technical-path.png)
+![微信公众号文章整理skill 技术路径](docs/assets/technical-path.png)
 
 输入公众号名称，自动查找账号、分页获取可见历史、下载并按正文归类：
 
@@ -145,7 +145,7 @@ sh scripts/run.sh --batch --links ./verified-links.json --output-dir ./new-batch
 
 ## GitHub 仓库二维码
 
-<p align="center"><img src="docs/assets/github-qr.png" width="180" alt="微信文章整理skill GitHub 仓库二维码"></p>
+<p align="center"><img src="docs/assets/github-qr.png" width="180" alt="微信公众号文章整理skill GitHub 仓库二维码"></p>
 
 ## 开发与验证
 

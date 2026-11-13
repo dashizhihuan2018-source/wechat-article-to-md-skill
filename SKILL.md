@@ -3,7 +3,7 @@ name: wechat-article-to-md-skill
 description: 输入公众号名称与下载要求（篇数、天数、起止日期），从免费公开索引发现原微信链接，下载为本机Markdown并按正文归类；也支持粘贴手机复制的文章链接一键转、单篇直链和已核验清单。默认无需API Key或微信登录，适用于公开索引已收录的公众号；记录覆盖范围和未完成项。
 ---
 
-# 微信文章整理skill
+# 微信公众号文章整理skill
 
 用户给公众号名称并要求历史下载与归类时，先读 [名称归档流程](references/archive.md)，执行 `sh scripts/run.sh --archive --name "<公众号名称>" --output-dir "<新目录>"`。默认使用免费 ByDrug 公开作者索引，无需 API Key 或微信登录；`--trial 10` 只限制本次试跑，不是产品篇数上限。
 
